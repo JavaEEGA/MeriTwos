@@ -33,7 +33,8 @@ public class StudentController {
             throw new IllegalStateException();
         Studrepo.save(student);
     }
-
-
-
+    @DeleteMapping("/{id}")
+    void killStudent(@PathVariable Long id){
+        Studrepo.deleteById(id);
+    }
 }
