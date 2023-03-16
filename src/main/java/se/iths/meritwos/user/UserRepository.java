@@ -1,4 +1,4 @@
-package user;
+package se.iths.meritwos.user;
 
 import org.springframework.data.repository.ListCrudRepository;
 
