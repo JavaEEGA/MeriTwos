@@ -4,8 +4,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.Objects;
 
@@ -17,11 +20,14 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @NotBlank
     private String name;
+    @NotBlank
     private String password;
-
     private Role role;
+
+    public User() {
+    }
 
     public User(Long id, String name, String password, Role role) {
         this.id = id;
@@ -44,6 +50,6 @@ public class User {
     }
 
     public enum Role {
-        ADMIN, STUDENT, COMPANY
+        Admin, Student, Company
     }
 }

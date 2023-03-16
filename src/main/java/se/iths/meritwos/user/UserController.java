@@ -1,9 +1,7 @@
 package se.iths.meritwos.user;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 import se.iths.meritwos.mapper.Mapper;
 
 import java.util.List;
@@ -29,7 +27,14 @@ public class UserController {
 
     @GetMapping("/{id}")
     Optional<UserDTO> getUserByID(@PathVariable long id) {
-        return mapper.mapUserToDTO(userRepository.findById(id).get());
+        return mapper.mapUserToDTO(userRepository.findById(id).orElseThrow());
+    }
+
+    @PostMapping
+    void addUser(@Validated @RequestBody User user) {
+        if (user.getRole() == User.Role.Student || user.getRole() == User.Role.Company || user.getRole() == User.Role.Admin)
+            userRepository.save(user);
+        else throw new IllegalArgumentException();
 
     }
 }
