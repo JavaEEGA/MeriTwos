@@ -1,4 +1,4 @@
-package ad;
+package se.iths.meritwos.ad;
 
 import jakarta.persistence.*;
 import lombok.Getter;

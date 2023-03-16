@@ -1,4 +1,4 @@
-package ad;
+package se.iths.meritwos.ad;
 
 import org.springframework.web.bind.annotation.*;
 
