@@ -43,7 +43,7 @@ public class User {
         return 1;
     }
 
-    enum Role {
+    public enum Role {
         ADMIN, STUDENT, COMPANY
     }
 }
