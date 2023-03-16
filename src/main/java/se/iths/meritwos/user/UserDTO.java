@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 @Setter
 @Getter
-@Component
 public class UserDTO {
 
     private Long id;
@@ -14,4 +13,11 @@ public class UserDTO {
     private String password;
     private User.Role role;
 
+
+    public UserDTO(User user) {
+        this.id = user.getId();
+        this.name = user.getName();
+        this.password = user.getPassword();
+        this.role = user.getRole();
+    }
 }
