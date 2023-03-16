@@ -1,4 +1,4 @@
-package user;
+package se.iths.meritwos.user;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,6 +23,12 @@ public class User {
 
     private Role role;
 
+    public User(Long id, String name, String password, Role role) {
+        this.id = id;
+        this.name = name;
+        this.password = password;
+        this.role = role;
+    }
 
     @Override
     public boolean equals(Object o) {
