@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/ad")
+@RequestMapping("/api/ad")
 public class AdController {
     private final AdRepository adRepository;
     private final Mapper mapper;
