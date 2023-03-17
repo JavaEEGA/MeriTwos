@@ -86,14 +86,15 @@ class UserControllerTest {
         var user = new User(1L, "Oliver", "12345", User.Role.Admin);
         var user2 = new User(2L, "William", "2345", User.Role.Student);
         when(repository.findById(1L)).thenReturn(Optional.of(user));
-        when(repository.save(user2)).thenReturn(user2);
 
 
         mockMvc.perform(put("/users/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(user2)))
                 .andExpect(status().isOk());
-        verify(repository).deleteById(1L);
+        assertThat(user.getName()).isEqualTo(user2.getName());
+        assertThat(user.getRole()).isEqualTo(user2.getRole());
+        assertThat(user.getPassword()).isEqualTo(user2.getPassword());
     }
 
     @Test
