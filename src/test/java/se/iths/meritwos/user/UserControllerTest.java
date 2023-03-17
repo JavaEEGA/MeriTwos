@@ -1,8 +1,10 @@
 package se.iths.meritwos.user;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.platform.engine.TestExecutionResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -10,9 +12,10 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import se.iths.meritwos.ResponseBodyMatchers;
@@ -54,7 +57,7 @@ class UserControllerTest {
 
         when(repository.findById(1L)).thenReturn(Optional.of(user));
 
-        var result = mockMvc.perform(get("/users/1")).andExpect(status().isOk());
+        mockMvc.perform(get("/users/1")).andExpect(status().isOk());
         //   .andExpect(ResponseBodyMatchers.responseBody().containsObjectAsJson(user,UserDTO.class));
     }
 
@@ -66,4 +69,49 @@ class UserControllerTest {
                         .content(objectMapper.writeValueAsString(user)))
                 .andExpect(status().isOk());
     }
+
+    @Test
+    void addUserWithInvalidJSONShouldReturn400() throws Exception {
+        var user = new User(1L, "Oliver", "", User.Role.Admin);
+
+        mockMvc.perform(post("/users")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(user)))
+                .andExpect(status().isBadRequest());
+
+    }
+
+    @Test
+    void updateUserByIdShouldReturnOkIfUpdated() throws Exception {
+        var user = new User(1L, "Oliver", "12345", User.Role.Admin);
+        var user2 = new User(2L, "William", "2345", User.Role.Student);
+        when(repository.findById(1L)).thenReturn(Optional.of(user));
+        when(repository.save(user2)).thenReturn(user2);
+
+
+        mockMvc.perform(put("/users/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(user2)))
+                .andExpect(status().isOk());
+        verify(repository).deleteById(1L);
+    }
+
+    @Test
+    void updateUserWithInvalidJSONShouldReturn400() throws Exception {
+        var user = new User(1L, "Oliver", "", User.Role.Admin);
+
+        mockMvc.perform(put("/users/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(user)))
+                .andExpect(status().isBadRequest());
+
+    }
+
+    @Test
+    void deleteUserShouldReturnOK() throws Exception {
+        mockMvc.perform(delete("/users/1"))
+                .andExpect(status().isOk());
+        verify(repository).deleteById(1L);
+    }
+
 }
