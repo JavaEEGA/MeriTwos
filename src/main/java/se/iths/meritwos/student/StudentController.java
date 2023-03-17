@@ -1,4 +1,4 @@
-package se.iths.meritwos.Student;
+package se.iths.meritwos.student;
 
 import org.springframework.web.bind.annotation.*;
 

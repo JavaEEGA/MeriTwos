@@ -1,4 +1,4 @@
-package se.iths.meritwos.Student;
+package se.iths.meritwos.student;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

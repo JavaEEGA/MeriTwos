@@ -1,4 +1,4 @@
-package se.iths.meritwos.Student;
+package se.iths.meritwos.student;
 
 import lombok.Getter;
 import lombok.Setter;
