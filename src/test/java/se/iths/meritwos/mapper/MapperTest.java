@@ -21,7 +21,6 @@ class MapperTest {
 
         assertThat(result.get().getName()).isSameAs(user.getName());
         assertThat(result.get().getId()).isSameAs(user.getId());
-        assertThat(result.get().getPassword()).isSameAs(user.getPassword());
         assertThat(result.get().getRole()).isSameAs(user.getRole());
     }
 

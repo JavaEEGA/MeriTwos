@@ -1,6 +1,6 @@
 package se.iths.meritwos.user;
 
-import org.springframework.validation.annotation.Validated;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 import se.iths.meritwos.mapper.Mapper;
 
@@ -13,7 +13,7 @@ public class UserController {
 
     private final UserRepository userRepository;
 
-    private Mapper mapper;
+    private final Mapper mapper;
 
     public UserController(UserRepository userRepository, Mapper mapper) {
         this.userRepository = userRepository;
@@ -31,10 +31,30 @@ public class UserController {
     }
 
     @PostMapping
-    void addUser(@Validated @RequestBody User user) {
-        if (user.getRole() == User.Role.Student || user.getRole() == User.Role.Company || user.getRole() == User.Role.Admin)
+    void addUser(@Valid @RequestBody User user) {
+        if (validateRole(user))
             userRepository.save(user);
         else throw new IllegalArgumentException();
 
+    }
+
+    @PutMapping("/{id}")
+    void updateUserById(@PathVariable long id, @Valid @RequestBody User user) {
+        if (validateRole(user)) {
+            userRepository.deleteById(id);
+            userRepository.save(user);
+        } else throw new IllegalArgumentException();
+
+    }
+
+    @DeleteMapping("/{id}")
+    void deleteUser(@PathVariable long id) {
+        userRepository.deleteById(id);
+
+    }
+
+
+    private static boolean validateRole(User user) {
+        return user.getRole() == User.Role.Student || user.getRole() == User.Role.Company || user.getRole() == User.Role.Admin;
     }
 }
