@@ -20,7 +20,6 @@ public class Mapper {
     public Optional<UserDTO> mapUserToDTO(User user) {
         return Optional.of(new UserDTO(user));
     }
-
     public List<AdDTO> mapAdToDTO(List<Ad> ads) {return ads.stream().map(AdDTO::new).toList();}
 
     public Optional<AdDTO> mapAdToDTO(Ad ad) {return Optional.of((new AdDTO(ad)));}
