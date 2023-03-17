@@ -1,10 +1,14 @@
 package se.iths.meritwos.mapper;
 
 import org.springframework.stereotype.Component;
+
+import se.iths.meritwos.student.Student;
+import se.iths.meritwos.student.StudentDTO;
 import se.iths.meritwos.ad.Ad;
 import se.iths.meritwos.ad.AdDTO;
 import se.iths.meritwos.user.User;
 import se.iths.meritwos.user.UserDTO;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -12,6 +16,13 @@ import java.util.Optional;
 @Component
 public class Mapper {
 
+    public List<StudentDTO> mapStudentToDto(List<Student> students){
+        return students.stream().map(StudentDTO::new).toList();
+    }
+
+    public Optional<StudentDTO> mapStudentToDto(Student student){
+        return Optional.of(new StudentDTO(student));
+    }
 
     public List<UserDTO> mapUserToDTO(List<User> users) {
         return users.stream().map(UserDTO::new).toList();
