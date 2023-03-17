@@ -3,25 +3,31 @@ package se.iths.meritwos.Student;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
+
+import se.iths.meritwos.mapper.Mapper;
 
 @RestController
 @RequestMapping("/student")
 public class StudentController {
 
     private final StudentRepository StudRepo;
+    private final Mapper mapper;
 
-    public StudentController(StudentRepository studentRepository){
-        this.StudRepo =studentRepository;
+    public StudentController(StudentRepository studentRepository,Mapper mapper){
+        this.StudRepo = studentRepository;
+        this.mapper = mapper;
     }
 
+
     @GetMapping
-    List<Student> getStudent(){
-        return StudRepo.findAll();
+    List<StudentDTO> getAllStudents(){
+        return mapper.mapStudentToDto(StudRepo.findAll());
     }
 
     @GetMapping("/{id}")
-    Student getAStudent(@PathVariable Long id){
-        return StudRepo.findById(id).orElseThrow();
+    Optional<StudentDTO> getName(@PathVariable Long id){
+        return mapper.mapStudentToDto(StudRepo.findById(id).orElseThrow());
     }
 
     @PostMapping
@@ -35,6 +41,5 @@ public class StudentController {
     void killStudent(@PathVariable Long id){
         StudRepo.deleteById(id);
     }
-
-
 }
+
