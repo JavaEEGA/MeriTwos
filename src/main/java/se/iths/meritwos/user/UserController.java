@@ -41,8 +41,11 @@ public class UserController {
     @PutMapping("/{id}")
     void updateUserById(@PathVariable long id, @Valid @RequestBody User user) {
         if (validateRole(user)) {
-            userRepository.deleteById(id);
-            userRepository.save(user);
+            var userToUpdate = userRepository.findById(id);
+            userToUpdate.get().setName(user.getName());
+            userToUpdate.get().setRole(user.getRole());
+            userToUpdate.get().setPassword(user.getPassword());
+            userRepository.save(userToUpdate.get());
         } else throw new IllegalArgumentException();
 
     }
