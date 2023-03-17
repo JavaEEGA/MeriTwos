@@ -8,22 +8,20 @@ import java.util.List;
 @RequestMapping("/student")
 public class StudentController {
 
-    private final StudentRepository Studrepo;
-   // private final StudentDTO studDTO;
+    private final StudentRepository StudRepo;
 
-    public StudentController(StudentRepository studentRepository){//, StudentDTO studentDTO){
-        this.Studrepo=studentRepository;
-        //this.studDTO=studentDTO;
-    }
-
-    @GetMapping("/{id}")
-    Student getAStudent(@PathVariable Long id){
-        return Studrepo.findById(id).orElseThrow();
+    public StudentController(StudentRepository studentRepository){
+        this.StudRepo =studentRepository;
     }
 
     @GetMapping
     List<Student> getStudent(){
-        return Studrepo.findAll();
+        return StudRepo.findAll();
+    }
+
+    @GetMapping("/{id}")
+    Student getAStudent(@PathVariable Long id){
+        return StudRepo.findById(id).orElseThrow();
     }
 
     @PostMapping
@@ -31,10 +29,12 @@ public class StudentController {
         String name = student.getName();
         if (name == null || name.isEmpty())
             throw new IllegalStateException();
-        Studrepo.save(student);
+        StudRepo.save(student);
     }
     @DeleteMapping("/{id}")
     void killStudent(@PathVariable Long id){
-        Studrepo.deleteById(id);
+        StudRepo.deleteById(id);
     }
+
+
 }
