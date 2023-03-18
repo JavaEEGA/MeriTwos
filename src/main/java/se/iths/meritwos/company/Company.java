@@ -1,13 +1,12 @@
 package se.iths.meritwos.company;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import se.iths.meritwos.ad.Ad;
 
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -22,7 +21,8 @@ public class Company {
     private String name;
     private String website;
     private String email;
-    //ads
+    @OneToMany
+    private List<Ad> ads;
 
 
     @Override
