@@ -1,11 +1,10 @@
 package se.iths.meritwos.company;
 
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import se.iths.meritwos.mapper.Mapper;
 
@@ -20,7 +19,7 @@ public class CompanyController {
 
     private final Mapper mapper;
 
-    public CompanyController (CompanyRepository companyRepository, Mapper mapper) {
+    public CompanyController(CompanyRepository companyRepository, Mapper mapper) {
         this.repo = companyRepository;
         this.mapper = mapper;
     }
@@ -33,5 +32,30 @@ public class CompanyController {
     }
 
     @GetMapping("")
-    List<CompanyDTO> getAllCompanies() {return mapper.mapCompanyToDTO(repo.findAll());}
+    List<CompanyDTO> getAllCompanies() {
+        return mapper.mapCompanyToDTO(repo.findAll());
+    }
+
+    @PostMapping
+    void addCompany(@Valid @RequestBody Company company) {
+        repo.save(company);
+    }
+
+
+    @PutMapping("/{id}")
+    void updateCompanyById(@PathVariable long id, @Valid @RequestBody Company company) {
+        var companyToUpdate = repo.findById(id).orElseThrow(() -> {
+            throw new ResponseStatusException(HttpStatusCode
+                    .valueOf(404), "Company doesn't exist");
+        });
+        companyToUpdate.setName(company.getName());
+        companyToUpdate.setWebsite(company.getWebsite());
+        companyToUpdate.setEmail(company.getEmail());
+        repo.save(companyToUpdate);
+    }
+
+    @DeleteMapping("/{id}")
+    void deleteCompany(@PathVariable long id) {
+        repo.deleteById(id);
+    }
 }
