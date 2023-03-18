@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Annonser</h1>
+<div class="adDiv" th:each="ads:${allAds}">
+    <h1 th:text="${ads.getName()}"></h1>
+    <h2 th:text="${ads.getCompany()}"></h2>
+    <p th:text="${ads.getDescription()}"></p>
+</div>
+</body>
+</html>
+<style>
+    body{
+        background: mistyrose;
+    }
+    .adDiv{
+        padding: 15px;
+        margin-top: 20px;
+        background: white;
+    }
+</style>
