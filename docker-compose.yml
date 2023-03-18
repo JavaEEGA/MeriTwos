@@ -1,4 +1,4 @@
-version: '3'
+version: '3.8'
 
 services:
   app:
@@ -8,11 +8,11 @@ services:
     depends_on:
       - db
     environment:
-      - DB_URL='dbMysql:3306/meritwos'
-      - DB_USER='meritwos'
-      - DB_PASS='meritwos'
+      DB_URL: dbMysql:3306/meritwos
+      DB_USER: meritwos
+      DB_PASS: meritwos
     ports:
-      - 8080:8080
+      - "8080:8080"
 
   db:
     image: 'mysql:latest'
@@ -20,12 +20,12 @@ services:
     volumes:
       - dbData:/var/lib/mysql
     environment:
-      - MYSQL_DATABASE='meritwos'
-      - MYSQL_USER='meritwos'
-      - MYSQL_PASS='meritwos'
-      - MYSQL_ROOT_PASSWORD='password'
-      - MYSQL_ROOT_HOST='%'
+      MYSQL_DATABASE: meritwos
+      MYSQL_USER: meritwos
+      MYSQL_PASSWORD: meritwos
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_ROOT_HOST: '%'
     ports:
-      - 3306:3306
+      - "3306:3306"
 volumes:
   dbData:
