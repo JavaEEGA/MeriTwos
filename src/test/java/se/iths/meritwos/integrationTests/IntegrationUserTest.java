@@ -1,45 +1,27 @@
 package se.iths.meritwos.integrationTests;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
-import org.testcontainers.containers.MySQLContainer;
-import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import se.iths.meritwos.user.User;
 
-import static io.restassured.RestAssured.baseURI;
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @Testcontainers
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class IntegrationTests {
+public class IntegrationUserTest extends BaseTest {
 
-    @Container
-    private static MySQLContainer dbContainer = (MySQLContainer) new MySQLContainer("mysql:8.0.32");
-    private ObjectMapper objectMapper = new ObjectMapper();
+
     User user = new User(1L, "Oliver", "12345", User.Role.Admin);
     User user2 = new User(2L, "William", "2345", User.Role.Student);
-
-    @DynamicPropertySource
-    public static void overRideProperty(DynamicPropertyRegistry registry) {
-        registry.add("spring.datasource.url", dbContainer::getJdbcUrl);
-        registry.add("spring.datasource.username", dbContainer::getUsername);
-        registry.add("spring.datasource.password", dbContainer::getPassword);
-    }
-
-    @BeforeAll
-    public static void setUp() {
-        baseURI = "http://localhost:8080";
-
-    }
 
     @Test
     @Order(1)
@@ -103,13 +85,12 @@ public class IntegrationTests {
     }
 
     private static Response getGetFirstUser() {
-        var getUser = given()
+        return given()
                 .contentType(ContentType.JSON)
                 .when()
                 .get("/users/1")
                 .then()
                 .extract()
                 .response();
-        return getUser;
     }
 }

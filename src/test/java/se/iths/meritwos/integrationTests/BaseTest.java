@@ -11,7 +11,7 @@ import static io.restassured.RestAssured.baseURI;
 
 abstract class BaseTest {
     @Container
-    private static MySQLContainer dbContainer = (MySQLContainer) new MySQLContainer("mysql:8.0.32");
+    private static MySQLContainer dbContainer = new MySQLContainer("mysql:8.0.32");
     static final ObjectMapper objectMapper = new ObjectMapper();
 
     @DynamicPropertySource
