@@ -21,7 +21,7 @@ public class Company {
     private String name;
     private String website;
     private String email;
-    @OneToMany(mappedBy = "id")
+    @OneToMany(mappedBy = "id", fetch = FetchType.EAGER)
     private List<Ad> ads;
 
 

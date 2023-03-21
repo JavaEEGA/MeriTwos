@@ -20,9 +20,7 @@ public class CompanyDTO {
     private String email;
     private List<AdDTO> ads;
 
-    private Mapper mapper;
-
-    public CompanyDTO(Company company) {
+    public CompanyDTO(Company company, Mapper mapper) {
         this.id = company.getId();
         this.name = company.getName();
         this.website = company.getWebsite();
