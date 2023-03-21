@@ -35,7 +35,7 @@ public class AdController {
     //
 
     private static boolean adIsEmptyOrNull(Ad ad) {
-        return ad.getName() == null || ad.getCompany() == null || ad.getName().isEmpty() || ad.getCompany().isEmpty();
+        return ad.getName() == null || ad.getCompany() == null || ad.getName().isEmpty();
     }
 
     @DeleteMapping("/{id}")
