@@ -1,9 +1,6 @@
 package se.iths.meritwos.user;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,6 +16,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotBlank
+    @Column(unique = true)
     private String name;
     @NotBlank
     private String password;
@@ -39,7 +37,6 @@ public class User {
         this.name = name;
         this.password = password;
         this.role = convertRole(role);
-        ;
     }
 
     private Role convertRole(String role) {
