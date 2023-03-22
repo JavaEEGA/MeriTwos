@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import se.iths.meritwos.mapper.Mapper;
 
@@ -17,7 +18,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
+@WithMockUser(value = "user")
 @WebMvcTest(controllers = UserController.class)
 class UserControllerTest {
 
@@ -30,8 +31,7 @@ class UserControllerTest {
     Mapper mapper;
 
     private ObjectMapper objectMapper = new ObjectMapper();
-
-
+    @WithMockUser(value = "user")
     @Test
     void getAllUserShouldReturnOK() throws Exception {
         var user = new User(1L, "Oliver", "12345", User.Role.ADMIN);
@@ -52,7 +52,7 @@ class UserControllerTest {
         mockMvc.perform(get("/users/1")).andExpect(status().isOk());
         //   .andExpect(ResponseBodyMatchers.responseBody().containsObjectAsJson(user,UserDTO.class));
     }
-
+    @WithMockUser(username = "user")
     @Test
     void addUserShouldReturnOk() throws Exception {
         var user = new User(1L, "Oliver", "12345", User.Role.ADMIN);
