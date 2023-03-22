@@ -1,30 +1,22 @@
 package se.iths.meritwos.user;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.platform.engine.TestExecutionResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import se.iths.meritwos.mapper.Mapper;
+
+import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import se.iths.meritwos.ResponseBodyMatchers;
-import se.iths.meritwos.mapper.Mapper;
-import se.iths.meritwos.user.UserController;
-import se.iths.meritwos.user.UserRepository;
-
-import java.util.List;
-import java.util.Optional;
 
 @WebMvcTest(controllers = UserController.class)
 class UserControllerTest {
@@ -42,8 +34,8 @@ class UserControllerTest {
 
     @Test
     void getAllUserShouldReturnOK() throws Exception {
-        var user = new User(1L, "Oliver", "12345", User.Role.Admin);
-        var user2 = new User(2L, "William", "2345", User.Role.Student);
+        var user = new User(1L, "Oliver", "12345", User.Role.ADMIN);
+        var user2 = new User(2L, "William", "2345", User.Role.STUDENT);
         var userList = List.of(user, user2);
 
         when(repository.findAll()).thenReturn(userList);
@@ -53,7 +45,7 @@ class UserControllerTest {
 
     @Test
     void getUserByIdShouldReturnOK() throws Exception {
-        var user = new User(1L, "Oliver", "12345", User.Role.Admin);
+        var user = new User(1L, "Oliver", "12345", User.Role.ADMIN);
 
         when(repository.findById(1L)).thenReturn(Optional.of(user));
 
@@ -63,7 +55,7 @@ class UserControllerTest {
 
     @Test
     void addUserShouldReturnOk() throws Exception {
-        var user = new User(1L, "Oliver", "12345", User.Role.Admin);
+        var user = new User(1L, "Oliver", "12345", User.Role.ADMIN);
         mockMvc.perform(post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(user)))
@@ -72,7 +64,7 @@ class UserControllerTest {
 
     @Test
     void addUserWithInvalidJSONShouldReturn400() throws Exception {
-        var user = new User(1L, "Oliver", "", User.Role.Admin);
+        var user = new User(1L, "Oliver", "", User.Role.ADMIN);
 
         mockMvc.perform(post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -83,8 +75,8 @@ class UserControllerTest {
 
     @Test
     void updateUserByIdShouldReturnOkIfUpdated() throws Exception {
-        var user = new User(1L, "Oliver", "12345", User.Role.Admin);
-        var user2 = new User(2L, "William", "2345", User.Role.Student);
+        var user = new User(1L, "Oliver", "12345", User.Role.ADMIN);
+        var user2 = new User(2L, "William", "2345", User.Role.STUDENT);
         when(repository.findById(1L)).thenReturn(Optional.of(user));
 
 
@@ -99,7 +91,7 @@ class UserControllerTest {
 
     @Test
     void updateUserWithInvalidJSONShouldReturn400() throws Exception {
-        var user = new User(1L, "Oliver", "", User.Role.Admin);
+        var user = new User(1L, "Oliver", "", User.Role.ADMIN);
 
         mockMvc.perform(put("/users/1")
                         .contentType(MediaType.APPLICATION_JSON)

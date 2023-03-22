@@ -58,6 +58,6 @@ public class UserController {
 
 
     private static boolean validateRole(User user) {
-        return user.getRole() == User.Role.Student || user.getRole() == User.Role.Company || user.getRole() == User.Role.Admin;
+        return user.getRole() == User.Role.STUDENT || user.getRole() == User.Role.COMPANY || user.getRole() == User.Role.ADMIN;
     }
 }

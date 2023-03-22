@@ -4,11 +4,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.validation.annotation.Validated;
 
 import java.util.Objects;
 
@@ -36,6 +34,33 @@ public class User {
         this.role = role;
     }
 
+    public User(Long id, String name, String password, String role) {
+        this.id = id;
+        this.name = name;
+        this.password = password;
+        this.role = convertRole(role);
+        ;
+    }
+
+    private Role convertRole(String role) {
+
+        switch (role.toUpperCase()) {
+            case "ADMIN" -> {
+                return Role.ADMIN;
+            }
+            case "STUDENT" -> {
+                return Role.STUDENT;
+            }
+            case "COMPANY" -> {
+                return Role.COMPANY;
+            }
+            default -> {
+                return null;
+            }
+
+        }
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -49,7 +74,7 @@ public class User {
         return 1;
     }
 
-    public enum Role {
-        Admin, Student, Company
-    }
+public enum Role {
+    ADMIN, STUDENT, COMPANY
+}
 }
