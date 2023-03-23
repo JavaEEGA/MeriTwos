@@ -1,16 +1,16 @@
-package se.iths.meritwos.security;
-
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
-
-@Service
-public class DatabaseUserDetailService implements UserDetailsService {
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        //TODO
-
-        return null;
-    }
-}
+//package se.iths.meritwos.security;
+//
+//import org.springframework.security.core.userdetails.UserDetails;
+//import org.springframework.security.core.userdetails.UserDetailsService;
+//import org.springframework.security.core.userdetails.UsernameNotFoundException;
+//import org.springframework.stereotype.Service;
+//
+//@Service
+//public class DatabaseUserDetailService implements UserDetailsService {
+//    @Override
+//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+//        //TODO
+//
+//        return null;
+//    }
+//}
