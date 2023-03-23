@@ -1,13 +1,13 @@
 package se.iths.meritwos.student;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import se.iths.meritwos.ad.Ad;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -20,6 +20,8 @@ public class Student {
     private String name;
     private String program;
     private String mail;
+    @ManyToMany
+    private Set<Ad> ads = new HashSet<>();
 
     //list of ads
     @Override
@@ -33,4 +35,6 @@ public class Student {
     public int hashCode() {
         return 1;
     }
+
+
 }

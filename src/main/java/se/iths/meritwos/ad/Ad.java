@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
-import se.iths.meritwos.company.Company;
 
 @Entity
 @Setter
@@ -15,8 +14,6 @@ public class Ad {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    @ManyToOne
-    private Company company;
     private String description;
 
 }
