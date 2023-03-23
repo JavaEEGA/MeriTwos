@@ -11,9 +11,9 @@ import lombok.Setter;
 public class Ad {
     @Id
     @NonNull
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private String company;
     private String description;
+
 }

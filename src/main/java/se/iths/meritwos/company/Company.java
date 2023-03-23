@@ -21,7 +21,7 @@ public class Company {
     private String name;
     private String website;
     private String email;
-    @OneToMany
+    @OneToMany(mappedBy = "id", fetch = FetchType.EAGER)
     private List<Ad> ads;
 
 
@@ -29,21 +29,12 @@ public class Company {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Company company = (Company) o;
-
-        if (!id.equals(company.id)) return false;
-        if (!Objects.equals(name, company.name)) return false;
-        if (!Objects.equals(website, company.website)) return false;
-        return Objects.equals(email, company.email);
+        return Objects.equals(id, company.id);
     }
 
     @Override
     public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (website != null ? website.hashCode() : 0);
-        result = 31 * result + (email != null ? email.hashCode() : 0);
-        return result;
+        return 1;
     }
 }

@@ -3,7 +3,11 @@ package se.iths.meritwos.company;
 
 import lombok.Getter;
 import lombok.Setter;
+import se.iths.meritwos.ad.Ad;
+import se.iths.meritwos.ad.AdDTO;
+import se.iths.meritwos.mapper.Mapper;
 
+import java.util.List;
 import java.util.Objects;
 
 @Setter
@@ -14,12 +18,14 @@ public class CompanyDTO {
     private String name;
     private String website;
     private String email;
+    private List<AdDTO> ads;
 
-    public CompanyDTO(Company company) {
+    public CompanyDTO(Company company, Mapper mapper) {
         this.id = company.getId();
         this.name = company.getName();
         this.website = company.getWebsite();
         this.email = company.getEmail();
+        this.ads = mapper.mapAdToDTO(company.getAds());
     }
 
     @Override
