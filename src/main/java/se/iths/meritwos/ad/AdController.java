@@ -1,18 +1,22 @@
 package se.iths.meritwos.ad;
 
+import jakarta.transaction.Transactional;
 import org.springframework.web.bind.annotation.*;
 import se.iths.meritwos.mapper.Mapper;
+import se.iths.meritwos.student.Student;
+import se.iths.meritwos.student.StudentRepository;
 
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/ad")
+@RequestMapping("/api/ads")
 public class AdController {
     private final AdRepository adRepository;
+
     private final Mapper mapper;
 
-    public AdController(AdRepository adRepository, Mapper mapper) {
+    public AdController(AdRepository adRepository, StudentRepository studentRepository, Mapper mapper) {
         this.adRepository = adRepository;
         this.mapper = mapper;
     }
@@ -32,7 +36,6 @@ public class AdController {
 //            throw new IllegalArgumentException();
         adRepository.save(ad);
     }
-    //
 
     private static boolean adIsEmptyOrNull(Ad ad) {
         return ad.getName() == null || ad.getName().isEmpty();

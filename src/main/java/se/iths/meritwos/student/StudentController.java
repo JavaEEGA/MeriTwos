@@ -1,5 +1,6 @@
 package se.iths.meritwos.student;
 
+import jakarta.transaction.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,14 +11,14 @@ import se.iths.meritwos.ad.AdRepository;
 import se.iths.meritwos.mapper.Mapper;
 
 @RestController
-@RequestMapping("/student")
+@RequestMapping("/api/students")
 public class StudentController {
 
     private final StudentRepository studentRepository;
     private final Mapper mapper;
     private final AdRepository adRepository;
 
-    public StudentController(StudentRepository studentRepository,Mapper mapper, AdRepository adRepository){
+    public StudentController(StudentRepository studentRepository, Mapper mapper, AdRepository adRepository) {
         this.studentRepository = studentRepository;
         this.mapper = mapper;
         this.adRepository = adRepository;
@@ -25,29 +26,34 @@ public class StudentController {
 
 
     @GetMapping
-    List<StudentDTO> getAllStudents(){
+    List<StudentDTO> getAllStudents() {
         return mapper.mapStudentToDto(studentRepository.findAll());
     }
 
     @GetMapping("/{id}")
-    Optional<StudentDTO> getName(@PathVariable Long id){
+    Optional<StudentDTO> getName(@PathVariable Long id) {
         return mapper.mapStudentToDto(studentRepository.findById(id).orElseThrow());
     }
 
     @PostMapping
-    void addName(@RequestBody Student student){
+    void addName(@RequestBody Student student) {
         var copyOfAd = Set.copyOf(student.getAds());
         student.getAds().clear();
         student.getAds().addAll(adRepository.saveAll(copyOfAd));
         studentRepository.save(student);
-        /*
-        String name = student.getName();
-        if (name == null || name.isEmpty())
-            throw new IllegalStateException();
-        StudRepo.save(student);*/
+
     }
+
+    @PostMapping("/{studentId}/{adId}")
+    void addAdToStudent(@PathVariable long studentId, @PathVariable long adId) {
+        var student = studentRepository.findById(studentId).orElseThrow();
+        student.getAds().add(adRepository.findById(adId).orElseThrow());
+        studentRepository.save(student);
+
+    }
+
     @DeleteMapping("/{id}")
-    void killStudent(@PathVariable Long id){
+    void killStudent(@PathVariable Long id) {
         studentRepository.deleteById(id);
     }
 }

@@ -20,7 +20,7 @@ public class Student {
     private String name;
     private String program;
     private String mail;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Ad> ads = new HashSet<>();
 
     //list of ads
