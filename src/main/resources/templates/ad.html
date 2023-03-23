@@ -6,6 +6,7 @@
 </head>
 <body>
 <h1>Annonser</h1>
+
 <div th:each="companies:${allCompanies}">
     <div class="adDiv" th:if="${companies.getAds()!=null}" th:each="ad : ${companies.getAds()}">
         <h1 th:text="${ad.getName()}"></h1>
