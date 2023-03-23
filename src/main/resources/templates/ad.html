@@ -6,12 +6,10 @@
 </head>
 <body>
 <h1>Annonser</h1>
-<div th:each="companies:${allCompanies}">
-    <div class="adDiv" th:each="ad : ${companies.getAds()}">
-        <h1 th:text="${ads.getName()}"></h1>
-        <h2 th:text="companies${companies.getName()}"></h2>
-        <p th:text="${ads.getDescription()}"></p>
-    </div>
+<div class="adDiv" th:each="ads:${allAds}">
+    <h1 th:text="${ads.getName()}"></h1>
+    <h2 th:text="${ads.getCompany()}"></h2>
+    <p th:text="${ads.getDescription()}"></p>
 </div>
 </body>
 </html>
