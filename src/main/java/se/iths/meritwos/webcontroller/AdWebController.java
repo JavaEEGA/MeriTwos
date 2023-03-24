@@ -8,7 +8,6 @@ import se.iths.meritwos.ad.AdRepository;
 import se.iths.meritwos.company.Company;
 import se.iths.meritwos.company.CompanyRepository;
 import se.iths.meritwos.student.Student;
-import se.iths.meritwos.student.StudentRepository;
 
 @Controller
 public class AdWebController {

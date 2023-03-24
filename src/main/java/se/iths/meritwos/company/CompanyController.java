@@ -69,16 +69,14 @@ public class CompanyController {
 
 
     @PostMapping(value = "/newad", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    ResponseEntity<Void> addNewAdByForm(@ModelAttribute Ad ad, @RequestParam long companyId) {
+    ResponseEntity<Void> addNewAdByForm(@ModelAttribute Ad ad, @RequestParam("companyId") long companyId) {
 
         var company = companyRepository.findById(companyId).orElseThrow();
         adRepository.save(ad);
 
         var adFound = adRepository.findByName(ad.getName());
-        System.out.println(adFound); // Felsökning
         company.getAds().add(adFound);
-        System.out.println(company.getAds()); // Felsökning
-
+        companyRepository.save(company);
 
         return ResponseEntity.status(HttpStatus.FOUND)
                 .location(URI.create("/newad"))
