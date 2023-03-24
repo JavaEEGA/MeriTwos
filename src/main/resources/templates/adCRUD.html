@@ -9,19 +9,24 @@
 <!--TODO GET COMPANY ID FROM FORM-->
 
 
-<body>
-<h1>Create Ad</h1>
-<form action="/api/companies/{companyId}/newad" method="post" th:object="${ad}">
+<form action="/api/companies/newad" method="post" th:object="${ad}">
     <label for="name">Name:</label><br>
     <input type="text" id="name" name="name" th:field="*{name}"><br>
 
     <label for="description">Description:</label><br>
     <input type="text" id="description" name="description" th:field="*{description}"><br>
 
+    <label for="companyId">Company:</label><br>
+    <select id="companyId" name="companyId">
+        <option value="">--Select a company--</option>
+        <option th:each="company : ${companies}"
+                th:value="${company.id}"
+                th:text="${company.name}">
+        </option>
+    </select><br>
+
     <input type="submit" value="Create">
 </form>
-</body>
-
 </html>
 
 <style>

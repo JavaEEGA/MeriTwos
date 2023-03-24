@@ -4,6 +4,7 @@ package se.iths.meritwos.company;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import se.iths.meritwos.ad.Ad;
 
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.Objects;
 @Entity
 @Getter
 @Setter
+@ToString
 public class Company {
 
     @Id
