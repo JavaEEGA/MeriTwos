@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Add ad Form</title>
+</head>
+
+<!--TODO GET COMPANY ID FROM FORM-->
+
+
+<body>
+<h1>Create Ad</h1>
+<form action="/api/companies/{companyId}/newad" method="post" th:object="${ad}">
+    <label for="name">Name:</label><br>
+    <input type="text" id="name" name="name" th:field="*{name}"><br>
+
+    <label for="description">Description:</label><br>
+    <input type="text" id="description" name="description" th:field="*{description}"><br>
+
+    <input type="submit" value="Create">
+</form>
+</body>
+
+</html>
+
+<style>
+    body {
+        background: mistyrose;
+    }
+</style>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Add Company Form</title>
+</head>
+
+<body>
+<h1>Create Company</h1>
+<form action="/api/companies/newcompany" method="post" th:object="${company}">
+    <label for="name">Name:</label><br>
+    <input type="text" id="name" name="name" th:field="*{name}"><br>
+
+    <label for="website">Website:</label><br>
+    <input type="text" id="website" name="website" th:field="*{website}"><br>
+
+    <label for="mail">Email:</label><br>
+    <input type="email" id="mail" name="mail" th:field="*{email}"><br>
+
+    <input type="submit" value="Create">
+</form>
+</body>
+
+</html>
+
+<style>
+    body {
+        background: mistyrose;
+    }
+</style>

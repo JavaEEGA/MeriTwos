@@ -1,11 +1,15 @@
 package se.iths.meritwos.ad;
 
 import jakarta.transaction.Transactional;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import se.iths.meritwos.mapper.Mapper;
 import se.iths.meritwos.student.Student;
 import se.iths.meritwos.student.StudentRepository;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,6 +40,7 @@ public class AdController {
 //            throw new IllegalArgumentException();
         adRepository.save(ad);
     }
+
 
     private static boolean adIsEmptyOrNull(Ad ad) {
         return ad.getName() == null || ad.getName().isEmpty();
