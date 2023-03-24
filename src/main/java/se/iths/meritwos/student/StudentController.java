@@ -1,18 +1,16 @@
 package se.iths.meritwos.student;
 
-import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import se.iths.meritwos.ad.AdRepository;
+import se.iths.meritwos.mapper.Mapper;
 
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-
-import se.iths.meritwos.ad.AdRepository;
-import se.iths.meritwos.mapper.Mapper;
 
 @RestController
 @RequestMapping("/api/students")
