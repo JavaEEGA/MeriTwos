@@ -71,7 +71,14 @@ public class User {
         return 1;
     }
 
-public enum Role {
-    ADMIN, STUDENT, COMPANY
-}
+    public enum Role {
+        ADMIN("0"),
+        STUDENT("1"),
+        COMPANY("2");
+        public final String role;
+
+        private Role(String role) {
+            this.role = role;
+        }
+    }
 }

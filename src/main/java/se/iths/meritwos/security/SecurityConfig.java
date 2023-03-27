@@ -2,14 +2,19 @@ package se.iths.meritwos.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import se.iths.meritwos.user.User;
 
 @Configuration
 public class SecurityConfig {
 
     @Bean
+    @Order(1)
     public SecurityFilterChain restApiFilter(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
                 .securityMatcher("/api/**")
@@ -17,11 +22,14 @@ public class SecurityConfig {
                 .disable()
                 .authorizeHttpRequests()
                 .requestMatchers("/error").permitAll()
+                .requestMatchers(HttpMethod.POST,"/api/users/register").permitAll()
                 .anyRequest().authenticated()
+
                 .and()
                 .httpBasic()
                 .and()
                 .build();
+        //TODO Add roles
     }
 
     @Bean
@@ -45,9 +53,9 @@ public class SecurityConfig {
 
     }
 
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
 }
