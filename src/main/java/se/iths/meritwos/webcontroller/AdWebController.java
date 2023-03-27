@@ -2,6 +2,7 @@ package se.iths.meritwos.webcontroller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.stereotype.Controller;
+import se.iths.meritwos.company.CompanyRepository;
 
 @Controller
 public class AdWebController {
