@@ -1,19 +1,19 @@
 package se.iths.meritwos.webcontroller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import se.iths.meritwos.ad.AdRepository;
 import org.springframework.stereotype.Controller;
+import se.iths.meritwos.company.CompanyRepository;
 
 @Controller
 public class AdWebController {
-    AdRepository adRepository;
+    CompanyRepository companyRepository;
 
-    public AdWebController(AdRepository adRepository){
-        this.adRepository = adRepository;
+    public AdWebController(CompanyRepository companyRepository){
+        this.companyRepository = companyRepository;
     }
     @GetMapping (path = "/ads")
     String ads(Model model){
-        model.addAttribute("allAds", adRepository.findAll());
+        model.addAttribute("allCompanies", companyRepository.findAll());
         return "ad";
     }
 }
