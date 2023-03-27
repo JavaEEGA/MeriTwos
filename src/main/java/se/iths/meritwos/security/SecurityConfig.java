@@ -2,20 +2,27 @@ package se.iths.meritwos.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class SecurityConfig {
 
-//    @Bean
-//    public SecurityFilterChain restApiFilter(HttpSecurity httpSecurity) throws Exception {
-//        return httpSecurity
-//                // Impementera
-//                //TODO
-//
-//                .build();
-//    }
+    @Bean
+    public SecurityFilterChain restApiFilter(HttpSecurity httpSecurity) throws Exception {
+        return httpSecurity
+                .securityMatcher("/api/**")
+                .csrf()
+                .disable()
+                .authorizeHttpRequests()
+                .requestMatchers("/error").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .httpBasic()
+                .and()
+                .build();
+    }
 
     @Bean
     public SecurityFilterChain defaultFilter(HttpSecurity httpSecurity) throws Exception {
