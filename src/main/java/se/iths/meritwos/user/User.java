@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties;
+import org.springframework.context.annotation.Role;
+import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Objects;
 
@@ -20,6 +23,9 @@ public class User {
     private String name;
     @NotBlank
     private String password;
+
+
+
     private Role role;
 
     public User() {
@@ -39,17 +45,17 @@ public class User {
         this.role = convertRole(role);
     }
 
-    private Role convertRole(String role) {
+    public Role convertRole(String role) {
 
         switch (role.toUpperCase()) {
             case "ADMIN" -> {
-                return Role.ADMIN;
+                return Role.ROLE_ADMIN;
             }
             case "STUDENT" -> {
-                return Role.STUDENT;
+                return Role.ROLE_STUDENT;
             }
             case "COMPANY" -> {
-                return Role.COMPANY;
+                return Role.ROLE_COMPANY;
             }
             default -> {
                 return null;
@@ -71,14 +77,12 @@ public class User {
         return 1;
     }
 
-    public enum Role {
-        ADMIN("0"),
-        STUDENT("1"),
-        COMPANY("2");
-        public final String role;
+    public enum Role implements GrantedAuthority {
+        ROLE_ADMIN, ROLE_STUDENT, ROLE_COMPANY;
 
-        private Role(String role) {
-            this.role = role;
+        @Override
+        public String getAuthority() {
+            return name();
         }
     }
 }

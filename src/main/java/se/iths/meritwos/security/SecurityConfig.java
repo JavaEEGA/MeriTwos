@@ -4,6 +4,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,9 +24,8 @@ public class SecurityConfig {
                 .disable()
                 .authorizeHttpRequests()
                 .requestMatchers("/error").permitAll()
-                .requestMatchers(HttpMethod.POST,"/api/users/register").permitAll()
+                .requestMatchers(HttpMethod.POST,"/api/users/register").hasAuthority(User.Role.ROLE_ADMIN.getAuthority())
                 .anyRequest().authenticated()
-
                 .and()
                 .httpBasic()
                 .and()
@@ -50,9 +51,7 @@ public class SecurityConfig {
         // Ska vi anvönda Oath2?
         // I så fall behöver vi en OidcService
 
-
     }
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

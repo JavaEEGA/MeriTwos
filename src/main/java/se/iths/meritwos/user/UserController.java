@@ -3,6 +3,7 @@ package se.iths.meritwos.user;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import se.iths.meritwos.mapper.Mapper;
@@ -38,6 +39,7 @@ public class UserController {
         return mapper.mapUserToDTO(userRepository.findById(id).orElseThrow());
     }
 
+    @Secured("ROLE_ADMIN")
     @PostMapping("/register")
     ResponseEntity<Void> addUser(@Valid @RequestBody User user) {
 
@@ -46,6 +48,7 @@ public class UserController {
 
         if (validateRole(user)) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
+//            user.setRole();
             userRepository.save(user);
             return ResponseEntity.status(HttpStatus.CREATED).build();
 
@@ -73,7 +76,7 @@ public class UserController {
 
 
     private static boolean validateRole(User user) {
-        return user.getRole() == User.Role.STUDENT || user.getRole() == User.Role.COMPANY || user.getRole() == User.Role.ADMIN;
+        return user.getRole() == User.Role.ROLE_STUDENT || user.getRole() == User.Role.ROLE_COMPANY || user.getRole() == User.Role.ROLE_ADMIN;
     }
 
 
