@@ -17,7 +17,7 @@ import java.util.Objects;
 
 @Getter
 @Setter
-@Document("users")
+@Document(collection = "users")
 public class User {
 
     @NotBlank
