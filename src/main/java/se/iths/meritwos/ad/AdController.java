@@ -34,14 +34,6 @@ public class AdController {
         return mapper.mapAdToDTO(adRepository.findAll());
     }
 
-    @PostMapping
-    void addAd(@RequestBody Ad ad) {
-//        if(adIsEmptyOrNull(ad))
-//            throw new IllegalArgumentException();
-        adRepository.save(ad);
-    }
-
-
     private static boolean adIsEmptyOrNull(Ad ad) {
         return ad.getName() == null || ad.getName().isEmpty();
     }
