@@ -4,12 +4,16 @@ package se.iths.meritwos.company;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import se.iths.meritwos.ad.Ad;
 import se.iths.meritwos.ad.AdRepository;
 import se.iths.meritwos.mapper.Mapper;
+import se.iths.meritwos.student.Student;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,6 +56,31 @@ public class CompanyController {
         var adFound = adRepository.findByName(ad.getName());
         company.getAds().add(adFound);
 
+    }
+
+    @PostMapping(value = "/newcompany", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    ResponseEntity<Void> addCompanyByForm(@ModelAttribute Company company) {
+        companyRepository.save(company);
+
+        return ResponseEntity.status(HttpStatus.FOUND)
+                .location(URI.create("/newcompany"))
+                .build();
+    }
+
+
+    @PostMapping(value = "/newad", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    ResponseEntity<Void> addNewAdByForm(@ModelAttribute Ad ad, @RequestParam("companyId") long companyId) {
+
+        var company = companyRepository.findById(companyId).orElseThrow();
+        adRepository.save(ad);
+
+        var adFound = adRepository.findByName(ad.getName());
+        company.getAds().add(adFound);
+        companyRepository.save(company);
+
+        return ResponseEntity.status(HttpStatus.FOUND)
+                .location(URI.create("/newad"))
+                .build();
     }
 
 
