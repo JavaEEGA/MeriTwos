@@ -8,6 +8,7 @@ import se.iths.meritwos.ad.AdRepository;
 import se.iths.meritwos.company.Company;
 import se.iths.meritwos.company.CompanyRepository;
 import se.iths.meritwos.student.Student;
+import org.springframework.stereotype.Controller;
 
 @Controller
 public class AdWebController {
@@ -21,9 +22,9 @@ public class AdWebController {
 
     }
 
-    @GetMapping(path = "/ads")
-    String ads(Model model) {
-        model.addAttribute("allAds", adRepository.findAll());
+    @GetMapping (path = "/ads")
+    String ads(Model model){
+        model.addAttribute("allCompanies", companyRepository.findAll());
         return "ad";
     }
 
