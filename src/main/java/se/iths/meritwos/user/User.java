@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Role;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -26,7 +27,7 @@ public class User {
 
 
 
-    private Role role;
+    private Set<Role> role;
 
     public User() {
     }
@@ -35,14 +36,14 @@ public class User {
         this.id = id;
         this.name = name;
         this.password = password;
-        this.role = role;
+        this.role.add(role);
     }
 
     public User(Long id, String name, String password, String role) {
         this.id = id;
         this.name = name;
         this.password = password;
-        this.role = convertRole(role);
+        this.role.add(Role.valueOf(role));
     }
 
     public Role convertRole(String role) {

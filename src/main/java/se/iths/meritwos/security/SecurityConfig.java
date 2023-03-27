@@ -24,7 +24,7 @@ public class SecurityConfig {
                 .disable()
                 .authorizeHttpRequests()
                 .requestMatchers("/error").permitAll()
-                .requestMatchers(HttpMethod.POST,"/api/users/register").hasAuthority(User.Role.ROLE_ADMIN.getAuthority())
+                .requestMatchers(HttpMethod.POST,"/api/users/register").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic()

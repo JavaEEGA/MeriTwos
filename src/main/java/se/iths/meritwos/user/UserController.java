@@ -76,7 +76,7 @@ public class UserController {
 
 
     private static boolean validateRole(User user) {
-        return user.getRole() == User.Role.ROLE_STUDENT || user.getRole() == User.Role.ROLE_COMPANY || user.getRole() == User.Role.ROLE_ADMIN;
+        return user.getRole().contains(User.Role.ROLE_STUDENT)|| user.getRole().contains(User.Role.ROLE_COMPANY)|| user.getRole().contains(User.Role.ROLE_ADMIN);
     }
 
 
