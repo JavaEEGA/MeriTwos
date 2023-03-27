@@ -49,7 +49,7 @@ public class CompanyController {
         companyRepository.save(company);
     }
 
-    @PostMapping("/{companyId}/newadd")
+    @PostMapping("/{companyId}/newad")
     void addAdToStudent(@PathVariable long companyId, @RequestBody Ad ad) {
         var company = companyRepository.findById(companyId).orElseThrow();
         adRepository.save(ad);
