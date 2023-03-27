@@ -13,7 +13,7 @@ public class AdWebController {
     }
     @GetMapping (path = "/ads")
     String ads(Model model){
-        model.addAttribute("allAds", adRepository.findAll());
+        model.addAttribute("allCompanies", companyRepository.findAll());
         return "ad";
     }
 }
