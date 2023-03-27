@@ -26,7 +26,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    Optional<UserDTO> getUserByID(@PathVariable long id) {
+    Optional<UserDTO> getUserByID(@PathVariable String id) {
         return mapper.mapUserToDTO(userRepository.findById(id).orElseThrow());
     }
 
@@ -39,7 +39,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    void updateUserById(@PathVariable long id, @Valid @RequestBody User user) {
+    void updateUserById(@PathVariable String id, @Valid @RequestBody User user) {
         if (validateRole(user)) {
             var userToUpdate = userRepository.findById(id).orElseThrow();
             userToUpdate.setName(user.getName());
@@ -51,7 +51,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    void deleteUser(@PathVariable long id) {
+    void deleteUser(@PathVariable String id) {
         userRepository.deleteById(id);
 
     }

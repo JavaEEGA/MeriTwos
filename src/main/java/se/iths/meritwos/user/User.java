@@ -8,18 +8,18 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.validation.annotation.Validated;
 
 import java.util.Objects;
 
+
 @Getter
 @Setter
-@Entity
+@Document("users")
 public class User {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     @NotBlank
     private String name;
     @NotBlank
@@ -29,24 +29,10 @@ public class User {
     public User() {
     }
 
-    public User(Long id, String name, String password, Role role) {
-        this.id = id;
+    public User(String name, String password, Role role) {
         this.name = name;
         this.password = password;
         this.role = role;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return Objects.equals(id, user.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return 1;
     }
 
     public enum Role {
