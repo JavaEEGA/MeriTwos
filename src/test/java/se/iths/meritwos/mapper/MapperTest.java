@@ -15,19 +15,19 @@ class MapperTest {
 
     @Test
     void mapUserToDTOShouldReturnUserDTO() {
-        var user = new User(1L, "Oliver", "12345", User.Role.Admin);
+        var user = new User(1L, "Oliver", "12345", User.Role.ADMIN);
 
         var result = mapper.mapUserToDTO(user);
 
         assertThat(result.get().getName()).isSameAs(user.getName());
         assertThat(result.get().getId()).isSameAs(user.getId());
-        assertThat(result.get().getRole()).isSameAs(user.getRole());
+        assertThat(result.get().getRole()).isSameAs(user.getRole().toString());
     }
 
     @Test
     void mapUserListToDtoShouldReturnDTOList() {
-        var user = new User(1L, "Oliver", "12345", User.Role.Admin);
-        var user2 = new User(2L, "William", "1245", User.Role.Student);
+        var user = new User(1L, "Oliver", "12345", User.Role.ADMIN);
+        var user2 = new User(2L, "William", "1245", User.Role.STUDENT);
         var userlist = List.of(user, user2);
 
         var result = mapper.mapUserToDTO(userlist);

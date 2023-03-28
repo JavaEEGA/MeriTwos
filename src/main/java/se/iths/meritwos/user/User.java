@@ -1,18 +1,16 @@
 package se.iths.meritwos.user;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.validation.Valid;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.validation.annotation.Validated;
 
 import java.util.Objects;
+import java.util.Set;
 import java.util.Set;
 
 
@@ -22,6 +20,7 @@ import java.util.Set;
 public class User {
 
     @NotBlank
+    @Column(unique = true)
     private String name;
     @NotBlank
     private String password;
@@ -36,7 +35,51 @@ public class User {
         this.role.add(role);
     }
 
-    public enum Role {
-        Admin, Student, Company
+    public User(Long id, String name, String password, String role) {
+        this.id = id;
+        this.name = name;
+        this.password = password;
+        this.role.add(Role.valueOf(role));
+    }
+
+    public Role convertRole(String role) {
+
+        switch (role.toUpperCase()) {
+            case "ADMIN" -> {
+                return Role.ADMIN;
+            }
+            case "STUDENT" -> {
+                return Role.STUDENT;
+            }
+            case "COMPANY" -> {
+                return Role.COMPANY;
+            }
+            default -> {
+                return null;
+            }
+
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return 1;
+    }
+
+    public enum Role implements GrantedAuthority {
+        ADMIN, STUDENT, COMPANY;
+
+        @Override
+        public String getAuthority() {
+            return name();
+        }
     }
 }

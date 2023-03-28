@@ -1,6 +1,10 @@
 package se.iths.meritwos.user;
 
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import se.iths.meritwos.mapper.Mapper;
 
@@ -11,12 +15,17 @@ import java.util.Optional;
 @RequestMapping("/api/users")
 public class UserController {
 
+    //TODO REDO METHODS TO HANDLE USERS
+    //TODO REDO controller to use MongoDB to Store Users
+
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     private final Mapper mapper;
 
-    public UserController(UserRepository userRepository, Mapper mapper) {
+    public UserController(UserRepository userRepository, PasswordEncoder passwordEncoder, Mapper mapper) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
         this.mapper = mapper;
     }
 
@@ -30,11 +39,19 @@ public class UserController {
         return mapper.mapUserToDTO(userRepository.findById(id).orElseThrow());
     }
 
+    @Secured("ADMIN")
     @PostMapping("/register")
-    void addUser(@Valid @RequestBody User user) {
-        if (validateRole(user))
+    ResponseEntity<Void> addUser(@Valid @RequestBody User user) {
+
+        if (userRepository.findByName(user.getName()) != null)
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+
+        if (validateRole(user)) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
             userRepository.save(user);
-        else throw new IllegalArgumentException();
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+
+        } else throw new IllegalArgumentException();
 
     }
 
@@ -58,6 +75,6 @@ public class UserController {
 
 
     private static boolean validateRole(User user) {
-        return user.getRole().contains("Student") || user.getRole().contains("Company")|| user.getRole().contains("Admin");
+        return user.getRole().contains(User.Role.STUDENT) || user.getRole().contains(User.Role.COMPANY) || user.getRole().contains(User.Role.ADMIN);
     }
 }

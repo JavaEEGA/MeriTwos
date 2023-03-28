@@ -2,10 +2,8 @@ package se.iths.meritwos.user;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.stereotype.Component;
 
 import java.util.Objects;
-import java.util.Set;
 
 @Setter
 @Getter
@@ -13,13 +11,14 @@ public class UserDTO {
 
     private Long id;
     private String name;
-    private Set<se.iths.meritwos.user.User.Role> role;
+    private String password;
+    private String role;
 
 
     public UserDTO(User user) {
-        ;
         this.name = user.getName();
-        this.role = user.getRole();
+        this.password = user.getPassword();
+        this.role = user.getRole().toString();
     }
 
     @Override

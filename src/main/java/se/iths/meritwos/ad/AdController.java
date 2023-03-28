@@ -1,9 +1,7 @@
 package se.iths.meritwos.ad;
 
-import jakarta.transaction.Transactional;
 import org.springframework.web.bind.annotation.*;
 import se.iths.meritwos.mapper.Mapper;
-import se.iths.meritwos.student.Student;
 import se.iths.meritwos.student.StudentRepository;
 
 import java.util.List;
