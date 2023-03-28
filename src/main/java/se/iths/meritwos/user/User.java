@@ -18,7 +18,8 @@ import java.util.Set;
 @Setter
 @Document(collection = "users")
 public class User {
-
+    @Id
+    String id;
     @NotBlank
     @Column(unique = true)
     private String name;
@@ -35,8 +36,7 @@ public class User {
         this.role.add(role);
     }
 
-    public User(Long id, String name, String password, String role) {
-        this.id = id;
+    public User(String name, String password, String role) {
         this.name = name;
         this.password = password;
         this.role.add(Role.valueOf(role));
@@ -66,7 +66,7 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id);
+        return Objects.equals(name, user.name);
     }
 
     @Override

@@ -15,7 +15,7 @@ public class MongodbConfig {
 
     @Bean
     public MongoDatabaseFactory mongoDatabaseFactory() {
-        return new SimpleMongoClientDatabaseFactory(new ConnectionString("mongodb://user:pass@localhost:27017/meritwos"));
+        return new SimpleMongoClientDatabaseFactory(new ConnectionString("mongodb://localhost:27017/meritwos"));
     }
 
     @Bean
