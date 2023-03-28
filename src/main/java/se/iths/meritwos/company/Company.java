@@ -4,6 +4,7 @@ package se.iths.meritwos.company;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import se.iths.meritwos.ad.Ad;
 
@@ -13,6 +14,7 @@ import java.util.Objects;
 @Entity
 @Getter
 @Setter
+@ToString
 public class Company {
 
     @Id
@@ -22,7 +24,7 @@ public class Company {
     private String name;
     private String website;
     private String email;
-    @OneToMany(mappedBy = "id", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Ad> ads;
 
 
