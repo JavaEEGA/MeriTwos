@@ -2,8 +2,10 @@
 <html lang="" xmlns:th="http://www.thymeleaf.org">
 
 <head>
+    <link th:href="@{/style.css}" rel="stylesheet" />
     <meta charset="UTF-8">
     <title>Add ad Form</title>
+    <div th:replace="header :: myheader"></div>
 </head>
 
 <!--TODO GET COMPANY ID FROM FORM-->
@@ -27,10 +29,5 @@
 
     <input type="submit" value="Create">
 </form>
+<div th:insert="footer :: foot"></div>
 </html>
-
-<style>
-    body {
-        background: mistyrose;
-    }
-</style>

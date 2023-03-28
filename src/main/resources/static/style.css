@@ -1,0 +1,36 @@
+
+.login{
+    float:right;
+    margin-right:100px;
+}
+.createStudent{
+    float:right;
+    margin-right: 100px;
+}
+body{
+    padding: 0;
+    margin: 0;
+    background-color: mistyrose;
+}
+
+ #footer{
+     bottom: 0;
+     background-color: black;
+     width: 100%;
+     height: 200px;
+     color: white;
+     position:absolute;
+ }
+.AboutUs{
+    float: left;
+    width: 49%;
+}
+.Contact{
+    float:right;
+    width: 49%;
+}
+.adDiv{
+    padding: 15px;
+    margin-top: 20px;
+    background: white;
+}

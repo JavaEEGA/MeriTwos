@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <link th:href="@{/style.css}" rel="stylesheet" />
     <meta charset="UTF-8">
     <title>Title</title>
+    <div th:replace="header :: myheader"></div>
 </head>
 <body>
 <h1>Annonser</h1>
@@ -14,15 +16,6 @@
         <p th:text="${ad.getDescription()}"></p>
     </div>
 </div>
+<div th:insert="footer :: foot"></div>
 </body>
 </html>
-<style>
-    body{
-        background: mistyrose;
-    }
-    .adDiv{
-        padding: 15px;
-        margin-top: 20px;
-        background: white;
-    }
-</style>
