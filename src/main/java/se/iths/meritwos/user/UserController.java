@@ -39,7 +39,7 @@ public class UserController {
         return mapper.mapUserToDTO(userRepository.findById(id).orElseThrow());
     }
 
-    @Secured("ROLE_ADMIN")
+    @Secured("ADMIN")
     @PostMapping("/register")
     ResponseEntity<Void> addUser(@Valid @RequestBody User user) {
 
@@ -48,7 +48,6 @@ public class UserController {
 
         if (validateRole(user)) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
-//            user.setRole();
             userRepository.save(user);
             return ResponseEntity.status(HttpStatus.CREATED).build();
 
@@ -76,7 +75,7 @@ public class UserController {
 
 
     private static boolean validateRole(User user) {
-        return user.getRole().contains(User.Role.ROLE_STUDENT)|| user.getRole().contains(User.Role.ROLE_COMPANY)|| user.getRole().contains(User.Role.ROLE_ADMIN);
+        return user.getRole().contains(User.Role.STUDENT) || user.getRole().contains(User.Role.COMPANY) || user.getRole().contains(User.Role.ADMIN);
     }
 
 

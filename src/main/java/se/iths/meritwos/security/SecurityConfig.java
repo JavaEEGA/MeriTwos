@@ -4,8 +4,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,11 +18,9 @@ public class SecurityConfig {
     public SecurityFilterChain restApiFilter(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
                 .securityMatcher("/api/**")
-                .csrf()
-                .disable()
+                .csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/error").permitAll()
-                .requestMatchers(HttpMethod.POST,"/api/users/register").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.POST,"/api/users/register").hasAuthority(User.Role.ADMIN.getAuthority())
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic()
