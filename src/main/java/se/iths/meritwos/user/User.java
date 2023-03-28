@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.validation.annotation.Validated;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.Set;
@@ -25,7 +26,7 @@ public class User {
     private String name;
     @NotBlank
     private String password;
-    private Set<Role> role;
+    private Set<Role> role = new HashSet<>();
 
     public User() {
     }
