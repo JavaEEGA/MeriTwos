@@ -1,6 +1,5 @@
 package se.iths.meritwos.user;
 
-import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -56,7 +55,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    void updateUserById(@PathVariable String id, @Valid @RequestBody User user) {
+    void updateUserById(@PathVariable String id, @RequestBody User user) {
         if (validateRole(user)) {
             var userToUpdate = userRepository.findById(id).orElseThrow();
             userToUpdate.setName(user.getName());
