@@ -5,6 +5,7 @@ import lombok.Setter;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
+import java.util.Set;
 
 @Setter
 @Getter
@@ -12,11 +13,11 @@ public class UserDTO {
 
     private Long id;
     private String name;
-    private User.Role role;
+    private Set<se.iths.meritwos.user.User.Role> role;
 
 
     public UserDTO(User user) {
-       ;
+        ;
         this.name = user.getName();
         this.role = user.getRole();
     }

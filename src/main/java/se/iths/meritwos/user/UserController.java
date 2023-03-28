@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/users")
 public class UserController {
 
     private final UserRepository userRepository;
@@ -30,7 +30,7 @@ public class UserController {
         return mapper.mapUserToDTO(userRepository.findById(id).orElseThrow());
     }
 
-    @PostMapping
+    @PostMapping("/register")
     void addUser(@Valid @RequestBody User user) {
         if (validateRole(user))
             userRepository.save(user);
@@ -58,6 +58,6 @@ public class UserController {
 
 
     private static boolean validateRole(User user) {
-        return user.getRole() == User.Role.Student || user.getRole() == User.Role.Company || user.getRole() == User.Role.Admin;
+        return user.getRole().contains("Student") || user.getRole().contains("Company")|| user.getRole().contains("Admin");
     }
 }

@@ -13,6 +13,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 import org.springframework.validation.annotation.Validated;
 
 import java.util.Objects;
+import java.util.Set;
 
 
 @Getter
@@ -24,7 +25,7 @@ public class User {
     private String name;
     @NotBlank
     private String password;
-    private Role role;
+    private Set<Role> role;
 
     public User() {
     }
@@ -32,7 +33,7 @@ public class User {
     public User(String name, String password, Role role) {
         this.name = name;
         this.password = password;
-        this.role = role;
+        this.role.add(role);
     }
 
     public enum Role {

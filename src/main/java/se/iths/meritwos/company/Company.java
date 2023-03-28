@@ -9,6 +9,7 @@ import se.iths.meritwos.ad.Ad;
 
 import java.util.List;
 import java.util.Objects;
+@Table
 @Entity
 @Getter
 @Setter
