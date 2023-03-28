@@ -1,6 +1,5 @@
 package se.iths.meritwos.user;
 
-import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -35,13 +34,13 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    Optional<UserDTO> getUserByID(@PathVariable long id) {
+    Optional<UserDTO> getUserByID(@PathVariable String id) {
         return mapper.mapUserToDTO(userRepository.findById(id).orElseThrow());
     }
 
     @Secured("ADMIN")
     @PostMapping("/register")
-    ResponseEntity<Void> addUser(@Valid @RequestBody User user) {
+    ResponseEntity<Void> addUser(@RequestBody User user) {
 
         if (userRepository.findByName(user.getName()) != null)
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
@@ -56,7 +55,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    void updateUserById(@PathVariable long id, @Valid @RequestBody User user) {
+    void updateUserById(@PathVariable String id, @RequestBody User user) {
         if (validateRole(user)) {
             var userToUpdate = userRepository.findById(id).orElseThrow();
             userToUpdate.setName(user.getName());
@@ -68,7 +67,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    void deleteUser(@PathVariable long id) {
+    void deleteUser(@PathVariable String id) {
         userRepository.deleteById(id);
 
     }
@@ -77,6 +76,4 @@ public class UserController {
     private static boolean validateRole(User user) {
         return user.getRole().contains(User.Role.STUDENT) || user.getRole().contains(User.Role.COMPANY) || user.getRole().contains(User.Role.ADMIN);
     }
-
-
 }

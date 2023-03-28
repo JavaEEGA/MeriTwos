@@ -1,9 +1,8 @@
 package se.iths.meritwos.user;
 
-import org.springframework.data.repository.ListCrudRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
-public interface UserRepository extends ListCrudRepository<User,Long> {
+public interface UserRepository extends MongoRepository<User, String> {
 
     public User findByName(String userName);
-
 }

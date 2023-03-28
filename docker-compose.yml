@@ -6,15 +6,17 @@ services:
       context: .
     container_name: meritwos
     depends_on:
-      - db
+      - mysql
     environment:
       DB_URL: dbMysql:3306/meritwos
       DB_USER: meritwos
       DB_PASS: meritwos
+      MONGO_HOST: dbMongoDB
+      MONGO_PORT: 27017
     ports:
       - "8080:8080"
 
-  db:
+  mysql:
     image: 'mysql:latest'
     container_name: dbMysql
     volumes:
@@ -27,5 +29,14 @@ services:
       MYSQL_ROOT_HOST: '%'
     ports:
       - "3306:3306"
+
+  mongodb:
+   image: 'mongo:latest'
+   container_name: dbMongoDB
+   volumes:
+     - dbData:/var/lib/mongodb
+   ports:
+     - "27017:27017"
+
 volumes:
   dbData:
