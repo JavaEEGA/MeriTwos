@@ -20,7 +20,7 @@ public class SecurityConfig {
                 .securityMatcher("/api/**")
                 .csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers(HttpMethod.POST,"/api/users/register").permitAll()//.hasAuthority(User.Role.ADMIN.getAuthority())
+                .requestMatchers(HttpMethod.POST,"/api/users/register").hasAuthority(User.Role.ADMIN.getAuthority())
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic()

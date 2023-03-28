@@ -41,7 +41,7 @@ public class UserController {
 
     @Secured("ADMIN")
     @PostMapping("/register")
-    ResponseEntity<Void> addUser( @RequestBody User user) {
+    ResponseEntity<Void> addUser(@RequestBody User user) {
 
         if (userRepository.findByName(user.getName()) != null)
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
