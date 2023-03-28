@@ -1,9 +1,13 @@
 package se.iths.meritwos.student;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import se.iths.meritwos.ad.AdRepository;
 import se.iths.meritwos.mapper.Mapper;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -49,6 +53,16 @@ public class StudentController {
         studentRepository.save(student);
 
     }
+
+    @PostMapping(value = "/newstudent", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    ResponseEntity<Void> addStudentByForm(@ModelAttribute Student student) {
+        studentRepository.save(student);
+
+        return ResponseEntity.status(HttpStatus.FOUND)
+                .location(URI.create("/newstudent"))
+                .build();
+    }
+
 
     @DeleteMapping("/{id}")
     void killStudent(@PathVariable Long id) {

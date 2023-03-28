@@ -1,9 +1,14 @@
 package se.iths.meritwos.ad;
 
+import jakarta.transaction.Transactional;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import se.iths.meritwos.mapper.Mapper;
 import se.iths.meritwos.student.StudentRepository;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,13 +31,6 @@ public class AdController {
     @GetMapping
     List<AdDTO> getAllAds(){
         return mapper.mapAdToDTO(adRepository.findAll());
-    }
-
-    @PostMapping
-    void addAd(@RequestBody Ad ad) {
-//        if(adIsEmptyOrNull(ad))
-//            throw new IllegalArgumentException();
-        adRepository.save(ad);
     }
 
     private static boolean adIsEmptyOrNull(Ad ad) {
