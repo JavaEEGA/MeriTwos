@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link th:href="@{/style.css}" rel="stylesheet" />
+  <meta charset="UTF-8">
+  <title>Title</title>
+
+</head>
+<body>
+  <div th:replace="header :: myheader"></div>
+
+  <h2>Links</h2>
+  <ul>
+    <li><a href="http://localhost:8080/ads">Hit kan du gå</a></li>
+    <li><a href="http://localhost:8080/newstudent">Hit kan du också gå</a></li>
+    <li><a href="http://localhost:8080/newcompany">Hit kan du gå om du vill</a></li>
+    <li><a href="http://localhost:8080/newad">Hit kan du gå om du är ett inloggat företag</a></li>
+  </ul>
+
+  <div th:insert="footer :: foot"></div>
+</body>
+</html>
