@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Add Student Form</title>
+</head>
+
+<body>
+<h1>Create Student</h1>
+<form action="/api/students/newstudent" method="post" th:object="${student}">
+    <label for="name">Name:</label><br>
+    <input type="text" id="name" name="name" th:field="*{name}"><br>
+
+    <label for="program">Program:</label><br>
+    <input type="text" id="program" name="program" th:field="*{program}"><br>
+
+    <label for="mail">Email:</label><br>
+    <input type="email" id="mail" name="mail" th:field="*{mail}"><br>
+
+    <input type="submit" value="Create">
+</form>
+</body>
+
+</html>
+
+<style>
+    body {
+        background: mistyrose;
+    }
+</style>

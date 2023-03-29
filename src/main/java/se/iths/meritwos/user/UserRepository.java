@@ -1,6 +1,11 @@
 package se.iths.meritwos.user;
 
-import org.springframework.data.repository.ListCrudRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
-public interface UserRepository extends ListCrudRepository<User,Long> {
+import java.util.Optional;
+
+public interface UserRepository extends MongoRepository<User, String> {
+
+    public Optional<User> findByName(String userName);
+    public void deleteByName(String name);
 }

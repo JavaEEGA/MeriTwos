@@ -4,16 +4,20 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
+import lombok.ToString;
+import se.iths.meritwos.company.Company;
 
+@Table
 @Entity
 @Setter
 @Getter
+@ToString
 public class Ad {
     @Id
     @NonNull
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private String company;
     private String description;
+
 }

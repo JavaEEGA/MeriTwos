@@ -1,6 +1,10 @@
 package se.iths.meritwos.user;
 
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import se.iths.meritwos.mapper.Mapper;
 
@@ -8,15 +12,17 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/users")
 public class UserController {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     private final Mapper mapper;
 
-    public UserController(UserRepository userRepository, Mapper mapper) {
+    public UserController(UserRepository userRepository, PasswordEncoder passwordEncoder, Mapper mapper) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
         this.mapper = mapper;
     }
 
@@ -25,23 +31,31 @@ public class UserController {
         return mapper.mapUserToDTO(userRepository.findAll());
     }
 
-    @GetMapping("/{id}")
-    Optional<UserDTO> getUserByID(@PathVariable long id) {
-        return mapper.mapUserToDTO(userRepository.findById(id).orElseThrow());
+    @GetMapping("/{name}")
+    Optional<UserDTO> getUserByID(@PathVariable String name) {
+        return mapper.mapUserToDTO(userRepository.findByName(name).orElseThrow());
     }
 
-    @PostMapping
-    void addUser(@Valid @RequestBody User user) {
-        if (validateRole(user))
-            userRepository.save(user);
-        else throw new IllegalArgumentException();
+    @Secured("ADMIN")
+    @PostMapping("/register")
+    ResponseEntity<Void> addUser(@Valid @RequestBody User user) {
 
-    }
+        if (userRepository.findByName(user.getName()).isPresent())
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
 
-    @PutMapping("/{id}")
-    void updateUserById(@PathVariable long id, @Valid @RequestBody User user) {
         if (validateRole(user)) {
-            var userToUpdate = userRepository.findById(id).orElseThrow();
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            userRepository.save(user);
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+
+        } else throw new IllegalArgumentException();
+
+    }
+
+    @PutMapping("/{name}")
+    void updateUserByName(@PathVariable String name, @Valid @RequestBody User user) {
+        if (validateRole(user)) {
+            var userToUpdate = userRepository.findByName(name).orElseThrow();
             userToUpdate.setName(user.getName());
             userToUpdate.setRole(user.getRole());
             userToUpdate.setPassword(user.getPassword());
@@ -50,14 +64,14 @@ public class UserController {
 
     }
 
-    @DeleteMapping("/{id}")
-    void deleteUser(@PathVariable long id) {
-        userRepository.deleteById(id);
+    @DeleteMapping("/{name}")
+    void deleteUser(@PathVariable String name) {
+        userRepository.deleteByName(name);
 
     }
 
 
     private static boolean validateRole(User user) {
-        return user.getRole() == User.Role.Student || user.getRole() == User.Role.Company || user.getRole() == User.Role.Admin;
+        return user.getRole().contains(User.Role.STUDENT) || user.getRole().contains(User.Role.COMPANY) || user.getRole().contains(User.Role.ADMIN);
     }
 }

@@ -18,11 +18,11 @@ import java.util.Optional;
 @Component
 public class Mapper {
 
-    public List<StudentDTO> mapStudentToDto(List<Student> students){
+    public List<StudentDTO> mapStudentToDto(List<Student> students) {
         return students.stream().map(StudentDTO::new).toList();
     }
 
-    public Optional<StudentDTO> mapStudentToDto(Student student){
+    public Optional<StudentDTO> mapStudentToDto(Student student) {
         return Optional.of(new StudentDTO(student));
     }
 
@@ -33,15 +33,20 @@ public class Mapper {
     public Optional<UserDTO> mapUserToDTO(User user) {
         return Optional.of(new UserDTO(user));
     }
-    public List<AdDTO> mapAdToDTO(List<Ad> ads) {return ads.stream().map(AdDTO::new).toList();}
 
-    public Optional<AdDTO> mapAdToDTO(Ad ad) {return Optional.of((new AdDTO(ad)));}
-
-    public Optional <CompanyDTO> mapCompanyToDTO (Company company) {
-        return Optional.of(new CompanyDTO(company));
+    public List<AdDTO> mapAdToDTO(List<Ad> ads) {
+        return ads.stream().map(AdDTO::new).toList();
     }
 
-    public List<CompanyDTO> mapCompanyToDTO (List<Company> companies) {
-        return companies.stream().map(CompanyDTO::new).toList();
+    public Optional<AdDTO> mapAdToDTO(Ad ad) {
+        return Optional.of((new AdDTO(ad)));
+    }
+
+    public Optional<CompanyDTO> mapCompanyToDTO(Company company) {
+        return Optional.of(new CompanyDTO(company, this));
+    }
+
+    public List<CompanyDTO> mapCompanyToDTO(List<Company> companies) {
+        return companies.stream().map(company -> new CompanyDTO(company, this)).toList();
     }
 }
