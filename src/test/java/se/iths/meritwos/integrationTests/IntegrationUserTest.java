@@ -8,33 +8,34 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.testcontainers.junit.jupiter.Testcontainers;
 import se.iths.meritwos.user.User;
 
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-@Testcontainers
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class IntegrationUserTest extends BaseTest {
 
 
-    User user = new User(1L, "Oliver", "12345", User.Role.Admin);
-    User user2 = new User(2L, "William", "2345", User.Role.Student);
+    User user = new User("Oliver", "12345", "ADMIN");
+    User user2 = new User("William", "2345", "ADMIN");
+
 
     @Test
     @Order(1)
     void addUserToDBShouldReturnOk() throws JsonProcessingException {
         var response = given()
+                .auth()
+                .basic("admin", "admin")
                 .header("Content-type", "application/json")
                 .and()
                 .body(objectMapper.writeValueAsString(user))
                 .when()
-                .post("/users")
+                .post("/api/users/register")
                 .then().extract().response();
 
-        assertThat(response.statusCode()).isEqualTo(200);
+        assertThat(response.statusCode()).isEqualTo(201);
     }
 
     @Test
@@ -42,16 +43,17 @@ public class IntegrationUserTest extends BaseTest {
     void getAllUsersFromDBShouldReturnUser() {
 
         var response = given()
+                .auth().basic("admin","admin")
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/users")
+                .get("/api/users")
                 .then()
                 .extract()
                 .response();
 
         assertThat(response.statusCode()).isEqualTo(200);
-        assertThat(response.jsonPath().getString("name")).isEqualTo("[" + user.getName() + "]");
-        assertThat(response.jsonPath().getString("role")).isEqualTo("[" + user.getRole() + "]");
+        assertThat(response.jsonPath().getString("name")).isEqualTo("[admin, " + user.getName() + "]");
+        assertThat(response.jsonPath().getString("role")).isEqualTo("[[ADMIN], " + user.getRole() + "]");
 
 
     }
@@ -60,10 +62,11 @@ public class IntegrationUserTest extends BaseTest {
     @Order(3)
     void putShouldReturnUpdatedUser() throws JsonProcessingException {
         var updateUser = given()
+                .auth().basic("admin","admin")
                 .header("Content-type", "application/json")
                 .and()
                 .body(objectMapper.writeValueAsString(user2))
-                .put("/users/1")
+                .put("/api/users/Oliver")
                 .then()
                 .extract().response();
 
@@ -76,7 +79,8 @@ public class IntegrationUserTest extends BaseTest {
     @Order(4)
     void deleteUserShouldReturnEmptyArray() {
         var deleteUser = given()
-                .delete("/users/1")
+                .auth().basic("admin","admin")
+                .delete("/api/users/William")
                 .then()
                 .extract().response();
         assertThat(deleteUser.statusCode()).isEqualTo(200);
@@ -86,9 +90,10 @@ public class IntegrationUserTest extends BaseTest {
 
     private static Response getGetFirstUser() {
         return given()
+                .auth().basic("admin","admin")
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/users/1")
+                .get("/api/users/William")
                 .then()
                 .extract()
                 .response();
