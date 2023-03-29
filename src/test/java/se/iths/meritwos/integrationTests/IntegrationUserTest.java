@@ -43,7 +43,7 @@ public class IntegrationUserTest extends BaseTest {
     void getAllUsersFromDBShouldReturnUser() {
 
         var response = given()
-                .auth().basic("admin","admin")
+                .auth().basic("admin", "admin")
                 .contentType(ContentType.JSON)
                 .when()
                 .get("/api/users")
@@ -62,7 +62,7 @@ public class IntegrationUserTest extends BaseTest {
     @Order(3)
     void putShouldReturnUpdatedUser() throws JsonProcessingException {
         var updateUser = given()
-                .auth().basic("admin","admin")
+                .auth().basic("admin", "admin")
                 .header("Content-type", "application/json")
                 .and()
                 .body(objectMapper.writeValueAsString(user2))
@@ -72,25 +72,77 @@ public class IntegrationUserTest extends BaseTest {
 
 
         assertThat(updateUser.statusCode()).isEqualTo(200);
-        assertThat(getGetFirstUser().jsonPath().getString("name")).isEqualTo(user2.getName());
+        assertThat(getGetUser().jsonPath().getString("name")).isEqualTo(user2.getName());
     }
 
     @Test
     @Order(4)
+    void deleteUserWithInvalidUserShouldReturn401() {
+        var deleteUser = given()
+                .delete("/api/users/William")
+                .then()
+                .extract().response();
+        assertThat(deleteUser.statusCode()).isEqualTo(401);
+
+
+    }
+
+    @Test
+    @Order(5)
+    void addUserThatAlreadyExistsShouldReturnConflict() throws JsonProcessingException {
+        var response = given()
+                .auth().basic("admin", "admin")
+                .header("Content-type", "application/json")
+                .and()
+                .body(objectMapper.writeValueAsString(user2))
+                .when()
+                .post("/api/users/register")
+                .then().extract().response();
+
+        assertThat(response.statusCode()).isEqualTo(409);
+    }
+
+    @Test
+    @Order(6)
     void deleteUserShouldReturnEmptyArray() {
         var deleteUser = given()
-                .auth().basic("admin","admin")
+                .auth().basic("admin", "admin")
                 .delete("/api/users/William")
                 .then()
                 .extract().response();
         assertThat(deleteUser.statusCode()).isEqualTo(200);
-        assertThat(getGetFirstUser().statusCode()).isEqualTo(404);
+        assertThat(getGetUser().statusCode()).isEqualTo(404);
 
     }
 
-    private static Response getGetFirstUser() {
+    @Test
+    void getUserWithInvalidUserShouldReturn401() {
+        var response = given()
+                .contentType(ContentType.JSON)
+                .when()
+                .get("/api/users/William")
+                .then()
+                .extract()
+                .response();
+        assertThat(response.statusCode()).isEqualTo(401);
+    }
+
+    @Test
+    void addUserWithInvalidUserToDBShouldReturn401() throws JsonProcessingException {
+        var response = given()
+                .header("Content-type", "application/json")
+                .and()
+                .body(objectMapper.writeValueAsString(user))
+                .when()
+                .post("/api/users/register")
+                .then().extract().response();
+
+        assertThat(response.statusCode()).isEqualTo(401);
+    }
+
+    private static Response getGetUser() {
         return given()
-                .auth().basic("admin","admin")
+                .auth().basic("admin", "admin")
                 .contentType(ContentType.JSON)
                 .when()
                 .get("/api/users/William")
@@ -98,4 +150,6 @@ public class IntegrationUserTest extends BaseTest {
                 .extract()
                 .response();
     }
+
+
 }
