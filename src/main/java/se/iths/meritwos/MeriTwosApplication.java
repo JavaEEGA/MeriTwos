@@ -23,12 +23,13 @@ public class MeriTwosApplication {
             @Override
             public void run(String... args) throws Exception {
                 var user = repo.findByName("admin");
-                if (user == null) {
+                if (user.isEmpty()) {
                     var adminUser = new User();
                     adminUser.setName("admin");
                     adminUser.setPassword(passwordEncoder.encode("admin"));
                     adminUser.getRole().add(User.Role.ADMIN);
                     repo.save(adminUser);
+                    System.out.println("Admin added");
                 }
             }
         };
