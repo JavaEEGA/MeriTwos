@@ -1,5 +1,6 @@
 package se.iths.meritwos.user;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -33,16 +34,16 @@ public class UserController {
         return mapper.mapUserToDTO(userRepository.findAll());
     }
 
-    @GetMapping("/{id}")
-    Optional<UserDTO> getUserByID(@PathVariable String id) {
-        return mapper.mapUserToDTO(userRepository.findById(id).orElseThrow());
+    @GetMapping("/{name}")
+    Optional<UserDTO> getUserByID(@PathVariable String name) {
+        return mapper.mapUserToDTO(userRepository.findByName(name).orElseThrow());
     }
 
     @Secured("ADMIN")
     @PostMapping("/register")
-    ResponseEntity<Void> addUser(@RequestBody User user) {
+    ResponseEntity<Void> addUser(@Valid @RequestBody User user) {
 
-        if (userRepository.findByName(user.getName()) != null)
+        if (userRepository.findByName(user.getName()).isPresent())
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
 
         if (validateRole(user)) {
@@ -54,10 +55,10 @@ public class UserController {
 
     }
 
-    @PutMapping("/{id}")
-    void updateUserById(@PathVariable String id, @RequestBody User user) {
+    @PutMapping("/{name}")
+    void updateUserByName(@PathVariable String name, @Valid @RequestBody User user) {
         if (validateRole(user)) {
-            var userToUpdate = userRepository.findById(id).orElseThrow();
+            var userToUpdate = userRepository.findByName(name).orElseThrow();
             userToUpdate.setName(user.getName());
             userToUpdate.setRole(user.getRole());
             userToUpdate.setPassword(user.getPassword());
@@ -66,9 +67,9 @@ public class UserController {
 
     }
 
-    @DeleteMapping("/{id}")
-    void deleteUser(@PathVariable String id) {
-        userRepository.deleteById(id);
+    @DeleteMapping("/{name}")
+    void deleteUser(@PathVariable String name) {
+        userRepository.deleteByName(name);
 
     }
 

@@ -13,6 +13,8 @@ import se.iths.meritwos.user.User;
 @Configuration
 public class SecurityConfig {
 
+
+
     @Bean
     @Order(1)
     public SecurityFilterChain restApiFilter(HttpSecurity httpSecurity) throws Exception {
