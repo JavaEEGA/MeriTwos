@@ -33,7 +33,7 @@ public class StudentController {
     }
 
     @GetMapping("/{id}")
-    Optional<StudentDTO> getName(@PathVariable Long id) {
+    Optional<StudentDTO> getStudent(@PathVariable Long id) {
         return mapper.mapStudentToDto(studentRepository.findById(id).orElseThrow());
     }
 

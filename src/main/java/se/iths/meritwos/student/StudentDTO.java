@@ -20,7 +20,7 @@ public class StudentDTO {
         this.id=student.getId();
         this.name=student.getName();
         this.program=student.getProgram();
-        this.mail=student.getMail();
+        this.mail=student.getEmail();
         this.ad = student.getAds();
     }
 }
