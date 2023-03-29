@@ -5,11 +5,12 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import se.iths.meritwos.ad.Ad;
 
 import java.util.List;
 import java.util.Objects;
-
+@Table
 @Entity
 @Getter
 @Setter

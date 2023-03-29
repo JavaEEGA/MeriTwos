@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.ToString;
 import se.iths.meritwos.company.Company;
 
+@Table
 @Entity
 @Setter
 @Getter
