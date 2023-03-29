@@ -15,9 +15,6 @@ import java.util.Optional;
 @RequestMapping("/api/users")
 public class UserController {
 
-    //TODO REDO METHODS TO HANDLE USERS
-    //TODO REDO controller to use MongoDB to Store Users
-
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 

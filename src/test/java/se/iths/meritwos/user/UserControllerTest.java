@@ -94,6 +94,7 @@ class UserControllerTest {
                 .andExpect(status().isBadRequest());
 
     }
+
     @WithMockUser(authorities = "STUDENT")
     @Test
     void addUserWithBadAuthoritiesShouldReturn403() throws Exception {
