@@ -10,6 +10,7 @@ import se.iths.meritwos.mapper.Mapper;
 import se.iths.meritwos.student.StudentRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -35,5 +36,17 @@ class AdControllerTest {
         when(adRepository.findAll()).thenReturn(List.of(ad1,ad2));
 
         mockMvc.perform(get("/api/ads")).andExpect(status().isOk());
+    }
+    @Test
+    void getAdsByIDShouldReturnOk() throws Exception{
+        Ad ad1 = new Ad(1L,"Världens bästa lia!","hello my friend");
+
+        when(adRepository.findById(1L)).thenReturn(Optional.of(ad1));
+
+        mockMvc.perform(get("/api/ads/1")).andExpect(status().isOk());
+    }
+    @Test
+    void getAdsByIdThatDoesNotExistShouldReturn404() throws Exception{
+        mockMvc.perform(get("/api/ads/1")).andExpect(status().isNotFound());
     }
 }
