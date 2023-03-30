@@ -2,8 +2,9 @@ package se.iths.meritwos.user;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 class UserTest {
     User user = new User();
 
@@ -14,5 +15,11 @@ class UserTest {
         assertThat(user.convertRole("COMPANY")).isEqualTo(User.Role.COMPANY);
         assertThat(user.convertRole("Nothing")).isEqualTo(null);
 
+    }
+
+    @Test
+    void UserEqualsUser() {
+        var user2 = new User();
+        assertEquals(user, user2);
     }
 }

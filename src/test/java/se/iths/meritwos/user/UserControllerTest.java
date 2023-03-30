@@ -82,6 +82,7 @@ class UserControllerTest {
                         .content(objectMapper.writeValueAsString(user)))
                 .andExpect(status().isCreated());
     }
+
     @WithMockUser(authorities = "ADMIN")
     @Test
     void addUserThatAlreadyExistShouldReturn409() throws Exception {
