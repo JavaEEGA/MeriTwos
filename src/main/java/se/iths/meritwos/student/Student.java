@@ -20,11 +20,11 @@ public class Student {
 
     private String name;
     private String program;
-    private String mail;
+    private String email;
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Ad> ads = new HashSet<>();
 
-    //list of ads
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
