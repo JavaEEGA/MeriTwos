@@ -58,7 +58,7 @@ public class CompanyController {
         var company = companyRepository.findById(companyId).orElseThrow();
         adRepository.save(ad);
         var adFound = adRepository.findByName(ad.getName());
-        company.getAds().add(adFound);
+        company.getAds().add(adFound.orElseThrow());
 
     }
 
@@ -78,7 +78,7 @@ public class CompanyController {
         ad.setCompanyId(companyId);
         publisher.publishMessage(ad);
 
-        return ResponseEntity.status(HttpStatus.FOUND)
+        return ResponseEntity.status(HttpStatus.CREATED)
                 .location(URI.create("/newad"))
                 .build();
     }

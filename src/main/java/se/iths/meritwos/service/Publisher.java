@@ -84,7 +84,7 @@ public class Publisher {
         var company = companyRepository.findById(companyId).orElseThrow();
 
         var adFound = adRepository.findByName(adName);
-        company.getAds().add(adFound);
+        company.getAds().add(adFound.orElseThrow());
         companyRepository.save(company);
     }
 
