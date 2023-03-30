@@ -6,7 +6,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import se.iths.meritwos.mapper.Mapper;
-import se.iths.meritwos.student.Student;
 import se.iths.meritwos.student.StudentRepository;
 
 import java.net.URI;
@@ -36,10 +35,5 @@ public class AdController {
 
     private static boolean adIsEmptyOrNull(Ad ad) {
         return ad.getName() == null || ad.getName().isEmpty();
-    }
-
-    @DeleteMapping("/{id}")
-    void deleteAd(@PathVariable long id){
-        adRepository.deleteById(id);
     }
 }

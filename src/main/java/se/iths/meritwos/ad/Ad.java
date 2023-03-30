@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.ToString;
 import se.iths.meritwos.company.Company;
 
+@Table
 @Entity
 @Setter
 @Getter
@@ -18,7 +19,6 @@ public class Ad {
     private Long id;
     private String name;
     private String description;
-
     public Ad(@NonNull Long id, String name, String description) {
         this.id = id;
         this.name = name;

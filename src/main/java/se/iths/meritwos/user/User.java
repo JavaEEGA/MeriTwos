@@ -1,39 +1,65 @@
 package se.iths.meritwos.user;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.validation.Valid;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.validation.annotation.Validated;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
+import java.util.Set;
+
 
 @Getter
 @Setter
-@Entity
+@Document(collection = "users")
 public class User {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    String id;
     @NotBlank
+    @Column(unique = true)
     private String name;
     @NotBlank
     private String password;
-    private Role role;
+    private Set<Role> role = new HashSet<>();
 
     public User() {
     }
 
-    public User(Long id, String name, String password, Role role) {
-        this.id = id;
+    public User(String name, String password, Role role) {
         this.name = name;
         this.password = password;
-        this.role = role;
+        this.role.add(role);
+    }
+
+    public User(String name, String password, String role) {
+        this.name = name;
+        this.password = password;
+        this.role.add(Role.valueOf(role));
+    }
+
+    public Role convertRole(String role) {
+
+        switch (role.toUpperCase()) {
+            case "ADMIN" -> {
+                return Role.ADMIN;
+            }
+            case "STUDENT" -> {
+                return Role.STUDENT;
+            }
+            case "COMPANY" -> {
+                return Role.COMPANY;
+            }
+            default -> {
+                return null;
+            }
+
+        }
     }
 
     @Override
@@ -41,7 +67,7 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id);
+        return Objects.equals(name, user.name);
     }
 
     @Override
@@ -49,7 +75,12 @@ public class User {
         return 1;
     }
 
-    public enum Role {
-        Admin, Student, Company
+    public enum Role implements GrantedAuthority {
+        ADMIN, STUDENT, COMPANY;
+
+        @Override
+        public String getAuthority() {
+            return name();
+        }
     }
 }

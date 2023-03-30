@@ -2,11 +2,14 @@
 <html lang="" xmlns:th="http://www.thymeleaf.org">
 
 <head>
+    <link th:href="@{/style/style.css}" rel="stylesheet" />
     <meta charset="UTF-8">
     <title>Add Student Form</title>
+    <div th:replace="header :: myheader"></div>
 </head>
 
 <body>
+
 <h1>Create Student</h1>
 <form action="/api/students/newstudent" method="post" th:object="${student}">
     <label for="name">Name:</label><br>
@@ -16,16 +19,14 @@
     <input type="text" id="program" name="program" th:field="*{program}"><br>
 
     <label for="mail">Email:</label><br>
-    <input type="email" id="mail" name="mail" th:field="*{mail}"><br>
+    <input type="email" id="mail" name="mail" th:field="*{getEmail}"><br>
 
     <input type="submit" value="Create">
 </form>
+
+<div th:insert="footer :: foot"></div>
+
 </body>
 
 </html>
 
-<style>
-    body {
-        background: mistyrose;
-    }
-</style>
