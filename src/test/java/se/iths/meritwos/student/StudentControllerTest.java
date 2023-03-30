@@ -3,6 +3,7 @@ package se.iths.meritwos.student;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
+import se.iths.meritwos.ad.Ad;
 import se.iths.meritwos.ad.AdRepository;
 import se.iths.meritwos.mapper.Mapper;
 import se.iths.meritwos.GlobalControllerAdvice;
@@ -23,10 +24,12 @@ import java.util.List;
 import java.util.Optional;
 
 
+import static org.assertj.core.api.FactoryBasedNavigableListAssert.assertThat;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = StudentController.class)
@@ -37,6 +40,9 @@ class StudentControllerTest {
     private WebApplicationContext context;
 
     private MockMvc mockMvc;
+
+    @MockBean
+    Student student;
 
     @MockBean
     Mapper mapper;
@@ -109,8 +115,38 @@ class StudentControllerTest {
                 .andExpect(status().isOk());
     }
 
+
     @Test
-    @WithMockUser(roles = "ADMIN")
+    @WithMockUser(authorities = "ADMIN")
+    void getStudentandAdThenReturn200ok() throws Exception {
+        Student student = new Student();
+        student.setId(1L);
+        student.setName("Simon");
+        student.setProgram("Java22");
+        student.setEmail("simon@ithsse");
+        Ad ad = new Ad();
+        ad.setId(2L);
+
+        when(repository.findById(1L)).thenReturn(Optional.of(student));
+        when(AdRepository.findById(2L)).thenReturn(Optional.of(ad));
+
+        mockMvc.perform(post("/api/students/1/2")).andExpect(status().isOk());
+    }
+
+    @Test
+    @WithMockUser(authorities = "ADMIN")
+    void addStudentInNewStudent() throws Exception {
+
+
+        mockMvc.perform(post("/api/students/newstudent")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+                .param("name", "simon")
+                .param("program","Java22")
+                .param("email","simon@iths.se"))
+                .andDo(print()).andExpect(status().isFound());
+    }
+    @Test
+    @WithMockUser(authorities = "ADMIN")
     void RemoveAStudentById()throws Exception{
         Student student = new Student();
         student.setId(1L);
