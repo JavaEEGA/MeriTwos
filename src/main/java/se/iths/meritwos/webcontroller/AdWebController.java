@@ -46,4 +46,8 @@ public class AdWebController {
         model.addAttribute("company", new Company());
         return "companyCRUD";
     }
+    @GetMapping(path = "/homepage")
+    String homepage(Model model) {
+        return "homepage";
+    }
 }
