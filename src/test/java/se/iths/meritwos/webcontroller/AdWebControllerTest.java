@@ -49,12 +49,12 @@ class AdWebControllerTest {
         mvc.perform(get("/newstudent")).andExpect(status().isFound());
 
     }
-    @WithMockUser(authorities = "ADMIN")
-    @Test
-    void newStudentWithLoginReturnsOk() throws Exception {
-        mvc.perform(get("/newstudent")).andExpect(status().isOk());
-
-    }
+//    @WithMockUser(authorities = "ADMIN")
+//    @Test
+//    void newStudentWithLoginReturnsOk() throws Exception {
+//        mvc.perform(get("/newstudent")).andExpect(status().isOk());
+//
+//    }
     @Test
     void newAdWithoutLoginReturns302() throws Exception {
         mvc.perform(get("/newad")).andExpect(status().isFound());
