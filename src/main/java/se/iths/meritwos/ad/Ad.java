@@ -19,12 +19,14 @@ public class Ad {
     private Long id;
     private String name;
     private String description;
-
+    public Ad(@NonNull Long id, String name, String description) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+    }
     public Ad(String name, String description) {
         this.name = name;
         this.description = description;
     }
-
-    public Ad() {
-    }
+    public Ad(){}
 }
