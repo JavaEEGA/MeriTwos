@@ -75,7 +75,7 @@ public class CompanyController {
     ResponseEntity<Void> addNewAdByForm(@ModelAttribute AdDTO ad, @RequestParam("companyId") long companyId) {
 
         ad.setCompanyId(companyId);
-        publisher.publishMessage(ad, companyId);
+        publisher.publishMessage(ad);
 
         return ResponseEntity.status(HttpStatus.FOUND)
                 .location(URI.create("/newad"))

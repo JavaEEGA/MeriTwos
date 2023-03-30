@@ -35,7 +35,7 @@ public class Publisher {
         this.objectMapper = objectMapper;
     }
 
-    public void publishMessage(AdDTO ad, long companyId) {
+    public void publishMessage(AdDTO ad) {
 
         try {
             var JsonAd = objectMapper.writeValueAsString(ad);
