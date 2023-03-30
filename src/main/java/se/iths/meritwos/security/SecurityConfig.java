@@ -44,6 +44,7 @@ public class SecurityConfig {
                 .requestMatchers("/error").permitAll()
                 .requestMatchers("/ads").permitAll()
                 .requestMatchers("/homepage").permitAll()
+                .requestMatchers("/newuser").permitAll()
                 .requestMatchers("/newad").hasAnyAuthority(User.Role.COMPANY.getAuthority(),User.Role.ADMIN.getAuthority())
                 .requestMatchers("/newcompany").hasAnyAuthority(User.Role.COMPANY.getAuthority(),User.Role.ADMIN.getAuthority())
                 .requestMatchers("/newstudent").hasAnyAuthority(User.Role.STUDENT.getAuthority(),User.Role.ADMIN.getAuthority())
