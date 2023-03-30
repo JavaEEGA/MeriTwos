@@ -14,6 +14,8 @@ public class UserDTO {
     private String password;
     private String role;
 
+    public UserDTO() {
+    }
 
     public UserDTO(User user) {
         this.name = user.getName();
@@ -26,7 +28,7 @@ public class UserDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserDTO userDTO = (UserDTO) o;
-        return Objects.equals(id, userDTO.id);
+        return Objects.equals(name, userDTO.name);
     }
 
     @Override

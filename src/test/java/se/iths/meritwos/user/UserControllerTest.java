@@ -85,6 +85,17 @@ class UserControllerTest {
 
     @WithMockUser(authorities = "ADMIN")
     @Test
+    void addUserThatAlreadyExistShouldReturn409() throws Exception {
+        var user = new User("Oliver", "12345", "ADMIN");
+        when(repository.findByName("Oliver")).thenReturn(Optional.of(user));
+        mockMvc.perform(post("/api/users/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(user)))
+                .andExpect(status().isConflict());
+    }
+
+    @WithMockUser(authorities = "ADMIN")
+    @Test
     void addUserWithInvalidJSONShouldReturn400() throws Exception {
         var user = new User("Oliver", "", User.Role.ADMIN);
 
