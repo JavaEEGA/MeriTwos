@@ -1,5 +1,6 @@
 package se.iths.meritwos.security;
 
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -42,9 +43,11 @@ public class SecurityConfig {
                 .authorizeHttpRequests()
                 .requestMatchers("/error").permitAll()
                 .requestMatchers("/ads").permitAll()
+                .requestMatchers("/homepage").permitAll()
                 .requestMatchers("/newad").hasAnyAuthority(User.Role.COMPANY.getAuthority(),User.Role.ADMIN.getAuthority())
                 .requestMatchers("/newcompany").hasAnyAuthority(User.Role.COMPANY.getAuthority(),User.Role.ADMIN.getAuthority())
                 .requestMatchers("/newstudent").hasAnyAuthority(User.Role.STUDENT.getAuthority(),User.Role.ADMIN.getAuthority())
+                .requestMatchers("/style/**").permitAll()
                 .anyRequest().denyAll()
                 .and()
                 .formLogin()
