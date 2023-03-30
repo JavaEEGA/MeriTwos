@@ -36,9 +36,4 @@ public class AdController {
     private static boolean adIsEmptyOrNull(Ad ad) {
         return ad.getName() == null || ad.getName().isEmpty();
     }
-
-    @DeleteMapping("/{id}")
-    void deleteAd(@PathVariable long id){
-        adRepository.deleteById(id);
-    }
 }

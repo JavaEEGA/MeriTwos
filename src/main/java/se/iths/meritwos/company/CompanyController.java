@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import se.iths.meritwos.ad.Ad;
@@ -98,5 +99,11 @@ public class CompanyController {
     @DeleteMapping("/{id}")
     void deleteCompany(@PathVariable long id) {
         companyRepository.deleteById(id);
+    }
+    @DeleteMapping("/{companyId}/ads/{adId}")
+    @Transactional
+    public void deleteAd(@PathVariable long companyId, @PathVariable long adId){
+        companyRepository.findById(companyId).ifPresent(c -> c.getAds().remove(adRepository.findById(adId).orElseThrow()));
+        adRepository.deleteById(adId);
     }
 }
