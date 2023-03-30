@@ -20,4 +20,11 @@ public class Ad {
     private String name;
     private String description;
 
+    public Ad(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+
+    public Ad() {
+    }
 }

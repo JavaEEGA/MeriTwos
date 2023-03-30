@@ -18,6 +18,7 @@ public class AdDTO {
     private Long id;
     private String name;
     private Company company;
+    private long companyId;
     private String description;
 
     @Override
