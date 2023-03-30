@@ -52,7 +52,7 @@ This is a platform to connect students and companies looking for lia-collaborati
 #### Templates
 ```http
 /ads
-/newStudent
-/newAd
-/newCompany
+/newstudent
+/newad
+/newcompany
 ```
