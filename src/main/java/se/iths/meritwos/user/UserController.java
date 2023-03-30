@@ -2,12 +2,15 @@ package se.iths.meritwos.user;
 
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import se.iths.meritwos.company.Company;
 import se.iths.meritwos.mapper.Mapper;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,6 +53,22 @@ public class UserController {
 
         } else throw new IllegalArgumentException();
 
+    }
+
+    @PostMapping (value = "/newuser", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    ResponseEntity<Void> addUserByForm(@ModelAttribute User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userRepository.save(user);
+
+        String redirectURI;
+        if (user.getRole().contains(User.Role.STUDENT)){
+            redirectURI = "/newstudent";
+        }
+        else { redirectURI ="/newcompany";}
+
+        return ResponseEntity.status(HttpStatus.FOUND)
+                .location(URI.create(redirectURI))
+                .build();
     }
 
     @PutMapping("/{name}")

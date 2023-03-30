@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link th:href="@{/style/style.css}" rel="stylesheet" />
+    <meta charset="UTF-8">
+    <title>Add User Form</title>
+    <div th:replace="header :: myheader"></div>
+</head>
+
+<body>
+<h1>Create User</h1>
+<form action="/api/users/newuser" method="post" th:object="${user}">
+    <label for="name">Username:</label><br>
+    <input type="text" id="name" name="name" th:field="*{name}"><br>
+
+    <label for="password">Password:</label><br>
+    <input type="text" id="password" name="password" th:field="*{password}"><br>
+
+    <label for="role">Role:</label><br>
+    <select id="role" name="role">
+        <option value="">--Select a role--</option>
+        <option th:each="role : ${roles}"
+                th:value="${role}"
+                th:text="${role}">
+        </option>
+    </select><br>
+
+    <input type="submit" value="Create">
+</form>
+
+
+<div th:insert="footer :: foot"></div>
+</body>
+</html>
