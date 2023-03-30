@@ -13,6 +13,7 @@ import se.iths.meritwos.company.CompanyRepository;
 import se.iths.meritwos.security.SecurityConfig;
 import se.iths.meritwos.user.UserRepository;
 
+
 import java.util.List;
 
 import static org.mockito.Mockito.when;
