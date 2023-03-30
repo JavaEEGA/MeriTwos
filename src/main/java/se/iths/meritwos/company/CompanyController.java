@@ -9,9 +9,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import se.iths.meritwos.ad.Ad;
+import se.iths.meritwos.ad.AdDTO;
 import se.iths.meritwos.ad.AdRepository;
 import se.iths.meritwos.mapper.Mapper;
-import se.iths.meritwos.student.Student;
+import se.iths.meritwos.service.Publisher;
 
 import java.net.URI;
 import java.util.List;
@@ -23,12 +24,14 @@ public class CompanyController {
 
     private final CompanyRepository companyRepository;
     private final AdRepository adRepository;
+    private final Publisher publisher;
 
     private final Mapper mapper;
 
-    public CompanyController(CompanyRepository companyRepository, AdRepository adRepository, Mapper mapper) {
+    public CompanyController(CompanyRepository companyRepository, AdRepository adRepository, Publisher publisher, Mapper mapper) {
         this.companyRepository = companyRepository;
         this.adRepository = adRepository;
+        this.publisher = publisher;
         this.mapper = mapper;
     }
 
@@ -69,14 +72,10 @@ public class CompanyController {
 
 
     @PostMapping(value = "/newad", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    ResponseEntity<Void> addNewAdByForm(@ModelAttribute Ad ad, @RequestParam("companyId") long companyId) {
+    ResponseEntity<Void> addNewAdByForm(@ModelAttribute AdDTO ad, @RequestParam("companyId") long companyId) {
 
-        var company = companyRepository.findById(companyId).orElseThrow();
-        adRepository.save(ad);
-
-        var adFound = adRepository.findByName(ad.getName());
-        company.getAds().add(adFound);
-        companyRepository.save(company);
+        ad.setCompanyId(companyId);
+        publisher.publishMessage(ad, companyId);
 
         return ResponseEntity.status(HttpStatus.FOUND)
                 .location(URI.create("/newad"))
