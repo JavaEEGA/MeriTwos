@@ -151,5 +151,55 @@ public class IntegrationUserTest extends BaseTest {
                 .response();
     }
 
+    @Test
+    void adsWithoutLoginReturnsOK() {
+        var response = given()
+                .get("/ads")
+                .then().extract().response();
+
+        assertThat(response.statusCode()).isEqualTo(200);
+
+    }
+
+    @Test
+    void newStudentWithLoginReturnsOk() {
+        var response = given()
+                .auth().basic("admin", "admin")
+                .get("/newstudent")
+                .then().extract().response();
+
+        assertThat(response.statusCode()).isEqualTo(200);
+    }
+
+    @Test
+    void newAdWithLoginReturnsOk() {
+        var response = given()
+                .auth().basic("admin", "admin")
+                .get("/newad")
+                .then().extract().response();
+
+        assertThat(response.statusCode()).isEqualTo(200);
+    }
+
+    @Test
+    void newCompanyWithLoginReturnsOk() {
+        var response = given()
+                .auth().basic("admin", "admin")
+                .get("/newcompany")
+                .then().extract().response();
+
+        assertThat(response.statusCode()).isEqualTo(200);
+    }
+
+//        @Test
+//    void newStudentWithoutLoginReturns302() {
+//        var response = given()
+//                .get("/newstudent")
+//                .then()
+//                .log().ifStatusCodeIsEqualTo(302);
+//
+//        assertThat(response.log()).isEqualTo(301);
+//    }
+
 
 }
