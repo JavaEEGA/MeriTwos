@@ -8,14 +8,16 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.boot.test.context.SpringBootTest;
+import se.iths.meritwos.ad.Ad;
 import se.iths.meritwos.user.User;
 
 import static io.restassured.RestAssured.given;
+import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class IntegrationUserTest extends BaseTest {
+public class IntegrationTest extends BaseTest {
 
 
     User user = new User("Oliver", "12345", "ADMIN");
@@ -190,6 +192,31 @@ public class IntegrationUserTest extends BaseTest {
 
         assertThat(response.statusCode()).isEqualTo(200);
     }
+
+//    @Test
+//    void addNewAdCreatesNewAddInDatabase() throws JsonProcessingException {
+//        var postResponse = given()
+//                .auth().basic("admin", "admin")
+//                .body(objectMapper.writeValueAsString(new Ad("Test", "test")))
+//                .post("/api/companies")
+//                .then().extract().response();
+//
+//        var getResponse = given()
+//                .auth().basic("admin", "admin")
+//                .get("/api/companies")
+//                .then().extract().response();
+//
+//        assertThat(postResponse.statusCode()).isEqualTo(200);
+//
+//
+//
+//
+//
+//
+//
+//    }
+
+
 
 //        @Test
 //    void newStudentWithoutLoginReturns302() {
