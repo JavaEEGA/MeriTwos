@@ -19,7 +19,7 @@ abstract class BaseTest {
     @Container
     private static MySQLContainer mySQLContainer = new MySQLContainer("mysql:8.0.32");
     @Container
-    private static MongoDBContainer mongoDBContainer = new MongoDBContainer("mongo:latest");
+    private static MongoDBContainer mongoDBContainer = new MongoDBContainer("mongo:6.0.5");
 
     @Container
     private static GenericContainer rabbitMq = new GenericContainer("rabbitmq:3-management").withExposedPorts(5672);
@@ -33,13 +33,16 @@ abstract class BaseTest {
         registry.add("spring.data.mongodb.host", mongoDBContainer::getHost);
         registry.add("spring.data.mongodb.port", mongoDBContainer::getFirstMappedPort);
         registry.add("spring.rabbitmq.host", rabbitMq::getHost);
-        registry.add(" spring.rabbitmq.port", rabbitMq::getFirstMappedPort);
+        registry.add("spring.rabbitmq.port", rabbitMq::getFirstMappedPort);
+        registry.add("spring.rabbitmq.username", () -> "guest");
+        registry.add("spring.rabbitmq.password", () -> "guest");
     }
 
     @BeforeAll
     public static void setUp() {
-        mongoDBContainer.start();
+//        mongoDBContainer.start();
         baseURI = "http://localhost:8080";
+
 
     }
 }
