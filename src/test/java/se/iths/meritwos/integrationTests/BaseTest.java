@@ -40,7 +40,6 @@ abstract class BaseTest {
 
     @BeforeAll
     public static void setUp() {
-//        mongoDBContainer.start();
         baseURI = "http://localhost:8080";
 
 
