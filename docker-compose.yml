@@ -7,12 +7,18 @@ services:
     container_name: meritwos
     depends_on:
       - mysql
+      - mongodb
+      - rabbitMQ
     environment:
       DB_URL: dbMysql:3306/meritwos
       DB_USER: meritwos
       DB_PASS: meritwos
       MONGO_HOST: dbMongoDB
       MONGO_PORT: 27017
+      RABBIT_HOST: QueueRabbitMQ
+      RABBIT_PORT: 5672
+      RABBIT_USER: guest
+      RABBIT_PASS: guest
     ports:
       - "8080:8080"
 
@@ -37,6 +43,15 @@ services:
      - dbData:/var/lib/mongodb
    ports:
      - "27017:27017"
+
+  rabbitMQ:
+    image: 'rabbitmq:3-management'
+    container_name: QueueRabbitMQ
+    volumes:
+      - dbData:/var/lib/rabbitmq
+    ports:
+      - "15672:15672"
+      - "5672:5672"
 
 volumes:
   dbData:
