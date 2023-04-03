@@ -57,7 +57,7 @@ public class AdWebController {
         model.addAttribute("roles", List.of(User.Role.STUDENT, User.Role.COMPANY));
         return "userCRUD";
     }
-    @GetMapping(path = "/homepage")
+    @GetMapping(path = "/")
     String homepage(Model model) {
         return "homepage";
     }

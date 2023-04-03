@@ -78,7 +78,7 @@ public class CompanyController {
         ad.setCompanyId(companyId);
         publisher.publishMessage(ad);
 
-        return ResponseEntity.status(HttpStatus.CREATED)
+        return ResponseEntity.status(HttpStatus.FOUND)
                 .location(URI.create("/newad"))
                 .build();
     }

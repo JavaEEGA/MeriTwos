@@ -43,7 +43,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests()
                 .requestMatchers("/error").permitAll()
                 .requestMatchers("/ads").permitAll()
-                .requestMatchers("/homepage").permitAll()
+                .requestMatchers("/").permitAll()
                 .requestMatchers("/newuser").permitAll()
                 .requestMatchers("/newad").hasAnyAuthority(User.Role.COMPANY.getAuthority(),User.Role.ADMIN.getAuthority())
                 .requestMatchers("/newcompany").hasAnyAuthority(User.Role.COMPANY.getAuthority(),User.Role.ADMIN.getAuthority())
@@ -52,7 +52,7 @@ public class SecurityConfig {
                 .anyRequest().denyAll()
                 .and()
                 .formLogin()
-                .defaultSuccessUrl("/ads")
+                .defaultSuccessUrl("/")
                 .and()
                 .build();
         //TODO
