@@ -223,7 +223,7 @@ public class IntegrationTest extends BaseTest {
                 .then().extract().response();
 
         assertThat(addCompany.statusCode()).isEqualTo(200);
-        assertThat(postResponse.statusCode()).isEqualTo(201);
+        assertThat(postResponse.statusCode()).isEqualTo(302);
         assertThat(countDownLatch.await(5, TimeUnit.SECONDS));
 
         var getResponse = given()
