@@ -1,14 +1,11 @@
 package se.iths.meritwos.ad;
 
-import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import se.iths.meritwos.mapper.Mapper;
 import se.iths.meritwos.student.StudentRepository;
 
-import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,12 +22,19 @@ public class AdController {
     }
 
     @GetMapping("/{id}")
-    Optional<AdDTO> getAName(@PathVariable long id) {
+    Optional<AdDTO> getAdById(@PathVariable long id) {
         return mapper.mapAdToDTO(adRepository.findById(id).orElseThrow());
     }
     @GetMapping
     List<AdDTO> getAllAds(){
         return mapper.mapAdToDTO(adRepository.findAll());
+    }
+
+    @GetMapping("/find/{name}")
+    Optional<AdDTO> getAdByName(@PathVariable String name) {
+        Ad ad = adRepository.findByName(name)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        return mapper.mapAdToDTO(ad);
     }
 
     private static boolean adIsEmptyOrNull(Ad ad) {

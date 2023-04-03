@@ -2,18 +2,27 @@ package se.iths.meritwos.integrationTests;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.restassured.http.ContentType;
+import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import se.iths.meritwos.ad.Ad;
+import se.iths.meritwos.company.Company;
 import se.iths.meritwos.user.User;
 
+import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+
 import static io.restassured.RestAssured.given;
+import static io.restassured.RestAssured.post;
 import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.testcontainers.shaded.org.awaitility.Awaitility.await;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -193,40 +202,41 @@ public class IntegrationTest extends BaseTest {
         assertThat(response.statusCode()).isEqualTo(200);
     }
 
-//    @Test
-//    void addNewAdCreatesNewAddInDatabase() throws JsonProcessingException {
-//        var postResponse = given()
-//                .auth().basic("admin", "admin")
-//                .body(objectMapper.writeValueAsString(new Ad("Test", "test")))
-//                .post("/api/companies")
-//                .then().extract().response();
-//
-//        var getResponse = given()
-//                .auth().basic("admin", "admin")
-//                .get("/api/companies")
-//                .then().extract().response();
-//
-//        assertThat(postResponse.statusCode()).isEqualTo(200);
-//
-//
-//
-//
-//
-//
-//
-//    }
+    @Test
+    void addNewAdCreatesNewAddInDatabaseSendsTroughRabbitMQQueueShouldReturnCompanyWithAdInSet() throws JsonProcessingException, InterruptedException {
+        CountDownLatch countDownLatch = new CountDownLatch(1);
+        var addCompany = given()
+                .auth().basic("admin", "admin")
+                .contentType(String.valueOf(MediaType.APPLICATION_JSON))
+                .body(objectMapper
+                        .writeValueAsString(new Company("TestCompany", "TestSite.se", "testEmail@ok.se")))
+                .post("/api/companies")
+                .then().extract().response();
+
+        var postResponse = given()
+                .auth().basic("admin", "admin")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+                .formParam("companyId", "1")
+                .formParam("name", "Test")
+                .formParam("description", "Testing queue")
+                .post("/api/companies/newad")
+                .then().extract().response();
+
+        assertThat(addCompany.statusCode()).isEqualTo(200);
+        assertThat(postResponse.statusCode()).isEqualTo(201);
+        assertThat(countDownLatch.await(5, TimeUnit.SECONDS));
+
+        var getResponse = given()
+                .auth().basic("admin", "admin")
+                .get("/api/companies")
+                .then().extract().response();
 
 
+        assertThat(getResponse.jsonPath().getString("ads"))
+                .isEqualTo("[[[id:1, name:Test, company:null, companyId:0, description:Testing queue]]]");
 
-//        @Test
-//    void newStudentWithoutLoginReturns302() {
-//        var response = given()
-//                .get("/newstudent")
-//                .then()
-//                .log().ifStatusCodeIsEqualTo(302);
-//
-//        assertThat(response.log()).isEqualTo(301);
-//    }
+
+    }
 
 
 }

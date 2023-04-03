@@ -27,6 +27,14 @@ public class Company {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Ad> ads;
 
+    public Company(String name, String website, String email) {
+        this.name = name;
+        this.website = website;
+        this.email = email;
+    }
+
+    public Company() {
+    }
 
     @Override
     public boolean equals(Object o) {
