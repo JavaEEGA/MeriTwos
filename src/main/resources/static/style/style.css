@@ -29,6 +29,6 @@ body{
     float:right;
     width: 49%;
 }
-.adDiv{
-    background: white;
+.whitebackground{
+    background-color: white;
 }
