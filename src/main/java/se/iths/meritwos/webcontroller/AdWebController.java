@@ -1,9 +1,13 @@
 package se.iths.meritwos.webcontroller;
 
 import org.springframework.boot.Banner;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import se.iths.meritwos.ad.Ad;
 import se.iths.meritwos.ad.AdRepository;
 import se.iths.meritwos.company.Company;
@@ -20,6 +24,9 @@ import java.util.List;
 public class AdWebController {
     AdRepository adRepository;
     CompanyRepository companyRepository;
+
+    UserRepository userRepository;
+
 
     public AdWebController(AdRepository adRepository, CompanyRepository companyRepository) {
         this.adRepository = adRepository;
@@ -57,8 +64,14 @@ public class AdWebController {
         model.addAttribute("roles", List.of(User.Role.STUDENT, User.Role.COMPANY));
         return "userCRUD";
     }
+    @ModelAttribute("authentication")
+    public Authentication auth(Authentication authentication){
+        return authentication;
+    }
+
     @GetMapping(path = "/")
-    String homepage(Model model) {
+    String homepage(Model model, Authentication authentication) {
+        //model.addAttribute("authentication", authentication);
         return "homepage";
     }
 }
