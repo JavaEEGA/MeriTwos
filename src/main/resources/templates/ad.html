@@ -4,7 +4,7 @@
     <link th:href="@{/style/style.css}" rel="stylesheet" />
     <meta charset="UTF-8">
     <title>Annonser</title>
-    <div th:replace="header :: myheader"></div>
+    <div th:replace="header :: myheader" th:with="authentication"></div>
 </head>
 <body>
 <h1>Annonser</h1>

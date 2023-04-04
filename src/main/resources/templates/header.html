@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
 
@@ -12,6 +12,23 @@
                <img src="/style/m2.jpg" alt="logo" width="100" height="100">
            </a>
         </div>
+        <nav class="navbar">
+            <div class="dropdown">
+                <button class="dropbtn">
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                </button>
+                <div class="dropdown-content">
+                    <a href="http://localhost:8080">home</a>
+                    <a href="http://localhost:8080/ads">Ads</a>
+                    <a href="http://localhost:8080/newstudent" th:if="${authentication != null}">Create new student</a>
+                    <a href="http://localhost:8080/newcompany" th:if="${authentication != null}">Create new company</a>
+                    <a href="http://localhost:8080/newad" th:if="${authentication != null}">Create new ad</a>
+                </div>
+            </div>
+        </nav>
+
         <div class="login">
             <button onclick="window.location.href='http://localhost:8080/login';">
                 Login

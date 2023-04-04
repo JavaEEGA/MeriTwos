@@ -7,17 +7,14 @@
 
 </head>
 <body>
-  <div th:replace="header :: myheader"></div>
+  <div th:replace="header :: myheader" th:with="authentication"></div>
 
   <h2>Links</h2>
-  <ul>
-    <li><a href="http://localhost:8080/ads">Hit kan du gå</a></li>
-    <li><a href="http://localhost:8080/newstudent">Hit kan du gå om du är inloggad</a></li>
-    <li><a href="http://localhost:8080/newcompany">Hit kan du gå om du vill</a></li>
 
-
-    <li><a href="http://localhost:8080/newad">Hit kan du gå om du är ett inloggat företag</a></li>
-  </ul>
+    <a href="http://localhost:8080/ads">Hit kan du gå</a>
+    <a href="http://localhost:8080/newstudent" th:if="${authentication != null}">Hit kan du gå om du är inloggad</a>
+    <a href="http://localhost:8080/newcompany" th:if="${authentication != null}">Hit kan du gå om du vill</a>
+    <a href="http://localhost:8080/newad" th:if="${authentication != null}">Hit kan du gå om du är ett inloggat företag</a>
 
   <div th:insert="footer :: foot"></div>
 </body>
