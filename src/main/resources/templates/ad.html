@@ -9,13 +9,14 @@
 <body>
 <h1>Annonser</h1>
 
-<div th:each="company:${allCompanies}">
+<div class="whitebackground" th:each="company:${allCompanies}">
     <div th:each="ad : ${company.ads}">
         <h1 th:text="${ad.name}"></h1>
         <h2 th:text="${company.name}"></h2>
         <p th:text="${ad.description}"></p>
     </div>
 </div>
+
 <div th:insert="footer :: foot"></div>
 </body>
 </html>
